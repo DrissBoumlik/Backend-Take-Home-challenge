@@ -12,7 +12,7 @@ class ArticleSearchRequest extends FormRequest
     {
         return [
             'term' => 'required|string|min:2|max:100',
-            'per_page' => 'nullable|integer|min:1|max:50'
+            'per_page' => 'nullable|integer|min:1|max:100'
         ];
     }
 
