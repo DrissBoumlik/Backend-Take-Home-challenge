@@ -15,16 +15,15 @@ class ArticleSearchService implements SearchServiceInterface
         'author',
         'category',
     ];
-    private const PER_PAGE = 10;
 
     /**
      * @throws \Exception
      */
-    public function search(string $term, int $perPage = self::PER_PAGE): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public function search(string $term): Builder
     {
         try {
             $searchQuery = Article::query();
-            return $this->buildSearchQuery($searchQuery, $term)->paginate($perPage);
+            return $this->buildSearchQuery($searchQuery, $term);
         } catch (\Throwable $e) {
             throw new \Exception('Failed to perform search: ' . $e->getMessage(), 0, $e);
         }
