@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +12,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        DB::connection()->getPdo()->sqliteCreateFunction('regexp_replace', function($text, $pattern, $replacement) {
+            return preg_replace('/'.$pattern.'/', $replacement, $text);
+        });
     }
 
     /**
