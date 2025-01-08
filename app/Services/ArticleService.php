@@ -10,7 +10,8 @@ class ArticleService
 
     public function __construct(
         public NewsAggregatorService $newsAggregatorService,
-        public ArticleSearchService $articleSearchService
+        public ArticleSearchService $articleSearchService,
+        public ArticleFilterService $articleFilterService
     ) {
 
     }
@@ -41,5 +42,10 @@ class ArticleService
     public function searchArticles(string $term, int $perPage): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return $this->articleSearchService->search($term)->paginate($this->getPerPage($perPage));
+    }
+
+    public function filterArticles(array $filters, $perPage): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    {
+        return $this->articleFilterService->filter($filters)->paginate($this->getPerPage($perPage));
     }
 }
