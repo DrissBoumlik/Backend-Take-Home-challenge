@@ -33,7 +33,7 @@ class ArticleService
         ])->latest('published_at')->paginate($perPage);
     }
 
-    public function searchArticles(string $term, int $perPage)
+    public function searchArticles(string $term, int $perPage): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return $this->articleSearchService->search($term, $perPage);
     }
