@@ -44,4 +44,19 @@ class ArticleServiceTest extends TestCase
         $this->assertArrayHasKey('category', $articles->first()->toArray());
         $this->assertArrayHasKey('published_at', $articles->first()->toArray());
     }
+
+    public function test_search_articles(): void
+    {
+        Article::factory()->create(['title' => 'Laravel News']);
+        Article::factory()->create(['content' => 'Laravel is great']);
+        Article::factory()->create(['title' => 'Another Article']);
+
+        $service = app(ArticleService::class);
+
+        $articles = $service->searchArticles('Laravel', 10);
+
+        $this->assertCount(2, $articles);
+        $this->assertTrue($articles->contains('title', 'Laravel News'));
+        $this->assertTrue($articles->contains('content', 'Laravel is great'));
+    }
 }
