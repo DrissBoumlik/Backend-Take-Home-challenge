@@ -5,6 +5,7 @@ namespace App\Services\Sources;
 use App\Contracts\ApiSource;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class NewsApiSource implements ApiSource
 {
@@ -57,7 +58,7 @@ class NewsApiSource implements ApiSource
                 'author' => $article['author'] ?? "Unknown Author",
                 'source' => 'NewsAPI',
                 'category' => $article['category'] ?? "Uncategorized",
-                'published_at' => $article['publishedAt'] ?? now(),
+                'published_at' => $article['publishedAt'] ? Carbon::parse($article['publishedAt'])->format('Y-m-d H:i:s') : now(),
             ];
         }
 

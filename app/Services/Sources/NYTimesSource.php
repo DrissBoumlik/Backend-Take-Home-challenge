@@ -3,6 +3,7 @@
 namespace App\Services\Sources;
 
 use App\Contracts\ApiSource;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -57,7 +58,7 @@ class NYTimesSource implements ApiSource
                 'author' => $article['byline'] ?? "Unknown Author",
                 'source' => 'New York Times',
                 'category' => $article['section'] ?? "Uncategorized",
-                'published_at' => $article['published_date'] ?? now(),
+                'published_at' => $article['published_date'] ? Carbon::parse($article['published_date'])->format('Y-m-d H:i:s') : now(),
             ];
         }
 

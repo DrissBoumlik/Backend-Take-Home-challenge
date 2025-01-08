@@ -5,6 +5,7 @@ namespace App\Services\Sources;
 use App\Contracts\ApiSource;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class GuardianSource implements ApiSource
 {
@@ -57,7 +58,7 @@ class GuardianSource implements ApiSource
                 'author' => $article['fields']['byline'] ?? "Unknown Author",
                 'source' => 'The Guardian',
                 'category' => $article['sectionName'] ?? "Uncategorized",
-                'published_at' => $article['webPublicationDate'] ?? now(),
+                'published_at' => $article['webPublicationDate'] ? Carbon::parse($article['webPublicationDate'])->format('Y-m-d H:i:s') : now(),
             ];
         }
 
