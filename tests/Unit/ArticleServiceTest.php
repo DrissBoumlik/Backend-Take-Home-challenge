@@ -34,7 +34,7 @@ class ArticleServiceTest extends TestCase
 
         $service = app(ArticleService::class);
 
-        $articles = $service->getAllArticles();
+        $articles = $service->getAllArticles(10);
 
         $this->assertCount(3, $articles);
         $this->assertArrayHasKey('title', $articles->first()->toArray());
