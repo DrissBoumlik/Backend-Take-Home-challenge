@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleRequest;
-use App\Http\Resources\ArticleCollection;
+use App\Http\Requests\ArticleSearchRequest;
 use App\Http\Resources\ArticleResource;
 use App\Services\ArticleService;
 use Illuminate\Http\Request;
@@ -21,5 +21,14 @@ class ArticleController extends Controller
         $articles = $this->articleService->getAllArticles($perPage);
 
         return ArticleResource::collection($articles);
+    }
+
+
+    public function search(ArticleSearchRequest $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    {
+        $term = $request->input('term');
+        $perPage = (int) $request->get('per_page');
+        $filteredArticles = $this->articleService->searchArticles($term, $perPage);
+        return ArticleResource::collection($filteredArticles);
     }
 }

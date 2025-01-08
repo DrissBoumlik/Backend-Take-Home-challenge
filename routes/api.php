@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,4 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/articles', [\App\Http\Controllers\ArticleController::class, 'index']); // Fetch all articles
+Route::get('/articles', [ArticleController::class, 'index']);
+
+Route::get('/articles/search', [ArticleController::class, 'search']);

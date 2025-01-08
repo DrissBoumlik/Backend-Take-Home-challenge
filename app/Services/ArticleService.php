@@ -9,7 +9,8 @@ class ArticleService
 
     private const PER_PAGE = 10;
 
-    public function __construct(public NewsAggregatorService $newsAggregatorService)
+    public function __construct(public NewsAggregatorService $newsAggregatorService,
+                                public ArticleSearchService $articleSearchService)
     {
 
     }
@@ -30,5 +31,10 @@ class ArticleService
             'category',
             'published_at'
         ])->latest('published_at')->paginate($perPage);
+    }
+
+    public function searchArticles(string $term, int $perPage)
+    {
+        return $this->articleSearchService->search($term, $perPage);
     }
 }
