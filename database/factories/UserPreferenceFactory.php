@@ -20,9 +20,9 @@ class UserPreferenceFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first()?->id ?? $this->faker->randomNumber(),
-            'sources' => $this->faker->randomElements(Article::inRandomOrder()->pluck('source'), $this->faker->numberBetween(1, 3)),
-            'categories' => $this->faker->randomElements(Article::inRandomOrder()->pluck('category'), $this->faker->numberBetween(1, 3)),
-            'authors' => $this->faker->randomElements(Article::inRandomOrder()->pluck('author'), $this->faker->numberBetween(1, 3)),
+            'sources' => $this->faker->randomElements(['Source A', 'Source B', 'Source C'], $this->faker->numberBetween(1, 3)),
+            'categories' => $this->faker->randomElements(['Category A', 'Category B', 'Category C'], $this->faker->numberBetween(1, 3)),
+            'authors' => $this->faker->randomElements(['Author A', 'Author B', 'Author C'], $this->faker->numberBetween(1, 3)),
         ];
     }
 }
