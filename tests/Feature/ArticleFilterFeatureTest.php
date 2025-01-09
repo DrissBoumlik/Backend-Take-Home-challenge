@@ -6,7 +6,7 @@ use App\Models\Article;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ArticleControllerTest extends TestCase
+class ArticleFilterFeatureTest extends TestCase
 {
     use RefreshDatabase;
 

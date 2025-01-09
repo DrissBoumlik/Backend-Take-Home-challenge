@@ -7,7 +7,7 @@ use App\Services\ArticleFilterService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ArticleFilterServiceTest extends TestCase
+class ArticleFilterUnitTest extends TestCase
 {
     use RefreshDatabase;
 
