@@ -51,6 +51,9 @@ class ArticleService
         return $this->articleFilterService->filter($filters)->paginate($this->getPerPage($perPage));
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getArticlesByPreferences(int $perPage): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         $user = Auth::user();
