@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Config\PaginationConfig;
+use App\Exceptions\UserPreferenceNotFoundException;
 use App\Models\Article;
 use App\Models\UserPreference;
 use Illuminate\Support\Facades\Auth;
@@ -52,7 +53,7 @@ class ArticleService
     }
 
     /**
-     * @throws \Exception
+     * @throws UserPreferenceNotFoundException
      */
     public function getArticlesByPreferences(int $perPage): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
@@ -63,7 +64,7 @@ class ArticleService
         // $preferences = UserPreference::inRandomOrder()->first(); // testing purposes
 
         if (! $preferences) {
-            throw new \Exception('No preferences found for the user');
+            throw new UserPreferenceNotFoundException('No preferences found for the user', 404);
         }
 
         $query = Article::query();
