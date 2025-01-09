@@ -26,6 +26,9 @@ class ArticleController extends Controller
     }
 
 
+    /**
+     * @throws \Exception
+     */
     public function search(ArticleSearchRequest $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $term = $request->input('term');

@@ -17,7 +17,7 @@ class ArticleSearchService implements SearchServiceInterface
     ];
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function search(string $term): Builder
     {
@@ -25,7 +25,7 @@ class ArticleSearchService implements SearchServiceInterface
             $searchQuery = Article::query();
             return $this->buildSearchQuery($searchQuery, $term);
         } catch (\Throwable $e) {
-            throw new \Exception('Failed to perform search: ' . $e->getMessage(), 0, $e);
+            throw new Exception('Failed to perform search: ' . $e->getMessage(), 0, $e);
         }
     }
 

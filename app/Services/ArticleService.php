@@ -42,6 +42,9 @@ class ArticleService
         ])->latest('published_at')->paginate($this->getPerPage($perPage));
     }
 
+    /**
+     * @throws \Exception
+     */
     public function searchArticles(string $term, int $perPage): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return $this->articleSearchService->search($term)->paginate($this->getPerPage($perPage));
