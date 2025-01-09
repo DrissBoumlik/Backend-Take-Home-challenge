@@ -8,6 +8,7 @@ use App\Http\Requests\ArticleSearchRequest;
 use App\Http\Resources\ArticleResource;
 use App\Services\ArticleService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -45,5 +46,15 @@ class ArticleController extends Controller
         $filteredArticles = $this->articleService->filterArticles($filters, $perPage);
 
         return ArticleResource::collection($filteredArticles);
+    }
+
+    public function getArticlesByPreferences(ArticleRequest $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    {
+        $perPage = (int) $request->get('per_page');
+
+        $articles = $this->articleService->getArticlesByPreferences($perPage);
+
+        return ArticleResource::collection($articles);
+
     }
 }
