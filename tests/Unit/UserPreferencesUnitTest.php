@@ -12,7 +12,7 @@ use App\Services\NewsAggregatorService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class UserPreferencesTest extends TestCase
+class UserPreferencesUnitTest extends TestCase
 {
     use RefreshDatabase;
 
