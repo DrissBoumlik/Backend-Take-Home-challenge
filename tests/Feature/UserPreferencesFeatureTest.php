@@ -29,7 +29,7 @@ class UserPreferencesFeatureTest extends TestCase
         Article::factory()->create(['source' => 'Source C']);
 
         $this->actingAs($user);
-        $response = $this->getJson('/api/articles/preferences');
+        $response = $this->getJson('/api/v1/articles/preferences');
 
         $response->assertOk();
         $response->assertJsonCount(2, 'data');
@@ -41,7 +41,7 @@ class UserPreferencesFeatureTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->getJson('/api/articles/preferences');
+        $response = $this->getJson('/api/v1/articles/preferences');
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
         $response->assertJson(['message' => 'User preferences not found']);
@@ -49,7 +49,7 @@ class UserPreferencesFeatureTest extends TestCase
 
     public function test_get_articles_by_preferences_for_unauthenticated_user(): void
     {
-        $response = $this->getJson('/api/articles/preferences');
+        $response = $this->getJson('/api/v1/articles/preferences');
 
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
         $response->assertJson(['message' => 'Unauthenticated user']);
@@ -63,7 +63,7 @@ class UserPreferencesFeatureTest extends TestCase
 
         $this->app->instance(ArticleService::class, $mockArticleService);
 
-        $response = $this->getJson('/api/articles/preferences');
+        $response = $this->getJson('/api/v1/articles/preferences');
 
         $response->assertStatus(Response::HTTP_BAD_REQUEST);
         $response->assertJson([
@@ -78,7 +78,7 @@ class UserPreferencesFeatureTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->getJson('/api/articles/preferences');
+        $response = $this->getJson('/api/v1/articles/preferences');
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
         $response->assertJson([

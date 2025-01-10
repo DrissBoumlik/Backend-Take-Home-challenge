@@ -27,7 +27,7 @@ class UserPreferencesIndexTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->getJson('/api/user/preferences');
+        $response = $this->getJson('/api/v1/user/preferences');
 
         $response->assertStatus(Response::HTTP_OK)
             ->assertJsonStructure([
@@ -49,7 +49,7 @@ class UserPreferencesIndexTest extends TestCase
 
         $this->app->instance(ArticleService::class, $mockUserPreferenceService);
 
-        $response = $this->getJson('/api/user/preferences');
+        $response = $this->getJson('/api/v1/user/preferences');
 
         $response->assertStatus(Response::HTTP_BAD_REQUEST);
         $response->assertJson([

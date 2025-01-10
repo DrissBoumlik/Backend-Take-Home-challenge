@@ -17,7 +17,7 @@ class ArticleFilterFeatureTest extends TestCase
         Article::factory()->create(['category' => 'Tech']);
         Article::factory()->create(['category' => 'Health']);
 
-        $response = $this->getJson('/api/articles/filter?category=Tech');
+        $response = $this->getJson('/api/v1/articles/filter?category=Tech');
 
         $response->assertStatus(Response::HTTP_OK)
             ->assertJsonCount(1, 'data')
@@ -29,7 +29,7 @@ class ArticleFilterFeatureTest extends TestCase
         Article::factory()->create(['published_at' => '2025-01-01']);
         Article::factory()->create(['published_at' => '2025-01-10']);
 
-        $response = $this->getJson('/api/articles/filter?start_date=2025-01-01&end_date=2025-01-05');
+        $response = $this->getJson('/api/v1/articles/filter?start_date=2025-01-01&end_date=2025-01-05');
 
         $response->assertStatus(Response::HTTP_OK)
             ->assertJsonCount(1, 'data')
@@ -40,7 +40,7 @@ class ArticleFilterFeatureTest extends TestCase
     {
         Article::factory(15)->create();
 
-        $response = $this->getJson('/api/articles/filter?per_page=10');
+        $response = $this->getJson('/api/v1/articles/filter?per_page=10');
 
         $response->assertStatus(Response::HTTP_OK)
             ->assertJsonPath('meta.per_page', 10)
@@ -52,7 +52,7 @@ class ArticleFilterFeatureTest extends TestCase
         Article::factory()->create(['source' => 'Source 1']);
         Article::factory()->create(['source' => 'Source 2']);
 
-        $response = $this->getJson('/api/articles/filter?source=NonExisting');
+        $response = $this->getJson('/api/v1/articles/filter?source=NonExisting');
 
         $response->assertStatus(Response::HTTP_OK)
             ->assertJsonCount(0, 'data');
@@ -67,7 +67,7 @@ class ArticleFilterFeatureTest extends TestCase
 
         $this->app->instance(ArticleFilterService::class, $mockFilterService);
 
-        $response = $this->getJson('/api/articles/filter?source=Source1&category=Sports');
+        $response = $this->getJson('/api/v1/articles/filter?source=Source1&category=Sports');
 
         $response->assertStatus(Response::HTTP_BAD_REQUEST);
         $response->assertJson([
@@ -80,7 +80,7 @@ class ArticleFilterFeatureTest extends TestCase
         Article::factory()->create(['source' => 'Source 1']);
         Article::factory()->create(['source' => 'Source 2']);
 
-        $response = $this->getJson('/api/articles/filter?start_date=NotADate');
+        $response = $this->getJson('/api/v1/articles/filter?start_date=NotADate');
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonPath('errors.start_date.0', 'The start date field must be a valid date.');

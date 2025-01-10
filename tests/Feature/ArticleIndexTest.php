@@ -16,7 +16,7 @@ class ArticleIndexTest extends TestCase
     {
         Article::factory()->count(15)->create();
 
-        $response = $this->getJson('/api/articles?per_page=10');
+        $response = $this->getJson('/api/v1/articles?per_page=10');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -44,7 +44,7 @@ class ArticleIndexTest extends TestCase
 
         $this->app->instance(ArticleService::class, $mockArticleService);
 
-        $response = $this->getJson('/api/articles');
+        $response = $this->getJson('/api/v1/articles');
 
         $response->assertStatus(Response::HTTP_BAD_REQUEST);
         $response->assertJson([
@@ -56,7 +56,7 @@ class ArticleIndexTest extends TestCase
     {
         Article::factory()->create(['title' => 'Article Title']);
 
-        $response = $this->getJson('/api/articles?per_page=0');
+        $response = $this->getJson('/api/v1/articles?per_page=0');
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonPath('errors.per_page.0', 'The per page field must be at least 1.');

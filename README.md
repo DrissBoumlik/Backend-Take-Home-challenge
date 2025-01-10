@@ -116,20 +116,20 @@ The following API endpoints are available:
 
 ### Fetch All Articles
 
-- **Endpoint:** `GET /articles`  
+- **Endpoint:** `GET /api/v1/articles`  
 - **Description:** Retrieve all articles, with pagination support.  
 - **Parameters:**
   - `per_page` (optional): Number of articles per page.
 
 ### Search Articles
-- **Endpoint:** `GET /articles/search?term=news`  
+- **Endpoint:** `GET /api/v1/articles/search?term=news`  
 - **Description:** Search for articles containing the specified term in their title or content.  
 - **Parameter:**
   - `term`: The search term to filter articles.  
   - `per_page` (optional): Number of articles per page.
 
 ### Filter Articles
-- **Endpoint:** `GET /articles/filter?start_date=2025-01-01&end_date=2025-01-10`  
+- **Endpoint:** `GET /api/v1/articles/filter?start_date=2025-01-01&end_date=2025-01-10`  
 - **Description:** Filter articles based on specific criteria.  
 - **Parameters:**
   - `category` (optional): Filter by article category.
@@ -139,13 +139,13 @@ The following API endpoints are available:
   - `per_page` (optional): Number of articles per page.
 
 ### User Preferences for Articles
-- **Endpoint:** `GET /articles/preferences`  
+- **Endpoint:** `GET /api/v1/articles/preferences`  
 - **Description:** Retrieve articles tailored to the user's preferences, such as selected categories or sources.  
 - **Parameter:**
   - `per_page` (optional): Number of articles per page.
 
 ### Manage User Preferences
-- **Endpoint:** `GET /user/preferences`  
+- **Endpoint:** `GET /api/v1/user/preferences`  
 - **Description:** Retrieve user preferences for filtering articles.  
 - **Parameter:**
     - `per_page` (optional): Number of articles per page.

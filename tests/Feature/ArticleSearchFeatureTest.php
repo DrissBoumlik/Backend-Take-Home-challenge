@@ -20,7 +20,7 @@ class ArticleSearchFeatureTest extends TestCase
 
         $term = 'Testing';
 
-        $response = $this->getJson('/api/articles/search?term=' . $term);
+        $response = $this->getJson('/api/v1/articles/search?term=' . $term);
 
         $response->assertOk();
         $response->assertJsonCount(2, 'data');
@@ -34,7 +34,7 @@ class ArticleSearchFeatureTest extends TestCase
 
         $term = 'Nonexistent';
 
-        $response = $this->getJson('/api/articles/search?term=' . $term);
+        $response = $this->getJson('/api/v1/articles/search?term=' . $term);
 
         $response->assertOk();
         $response->assertJsonCount(0, 'data');
@@ -46,7 +46,7 @@ class ArticleSearchFeatureTest extends TestCase
 
         $term = '';
 
-        $response = $this->getJson('/api/articles/search?term=' . $term);
+        $response = $this->getJson('/api/v1/articles/search?term=' . $term);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonPath('errors.term.0', 'The term field is required.');
@@ -61,7 +61,7 @@ class ArticleSearchFeatureTest extends TestCase
         $this->app->instance(ArticleSearchService::class, $mockSearchService);
 
         $term = 'test';
-        $response = $this->getJson('/api/articles/search?term=' . $term);
+        $response = $this->getJson('/api/v1/articles/search?term=' . $term);
 
         $response->assertStatus(Response::HTTP_BAD_REQUEST);
         $response->assertJson([

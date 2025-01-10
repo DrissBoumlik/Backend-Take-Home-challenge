@@ -15,12 +15,16 @@ use App\Http\Controllers\UserPreferenceController;
 |
 */
 
-Route::get('/articles', [ArticleController::class, 'index']);
+Route::prefix('v1')->group(function () {
 
-Route::get('/articles/search', [ArticleController::class, 'search']);
+    Route::get('/articles', [ArticleController::class, 'index']);
 
-Route::get('/articles/filter', [ArticleController::class, 'filter']);
+    Route::get('/articles/search', [ArticleController::class, 'search']);
 
-Route::get('/articles/preferences', [ArticleController::class, 'getArticlesByPreferences']);
+    Route::get('/articles/filter', [ArticleController::class, 'filter']);
 
-Route::get('/user/preferences', [UserPreferenceController::class, 'index']);
+    Route::get('/articles/preferences', [ArticleController::class, 'getArticlesByPreferences']);
+
+    Route::get('/user/preferences', [UserPreferenceController::class, 'index']);
+
+});
