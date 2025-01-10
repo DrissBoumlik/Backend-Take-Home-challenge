@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services\Sources;
+namespace App\Services\NewsApis;
 
 use App\Contracts\ApiSource;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class NYTimesSource implements ApiSource
+class NYTimesService implements ApiSource
 {
 
     private string $url;
