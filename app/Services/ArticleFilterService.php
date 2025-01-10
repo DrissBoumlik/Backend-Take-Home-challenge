@@ -4,11 +4,12 @@ namespace App\Services;
 
 use App\Contracts\FilterServiceInterface;
 use App\Models\Article;
+use Illuminate\Database\Eloquent\Builder;
 
 class ArticleFilterService implements FilterServiceInterface
 {
 
-    public function filter(array $filters): \Illuminate\Database\Eloquent\Builder
+    public function filter(array $filters): Builder
     {
         $query = Article::query();
 

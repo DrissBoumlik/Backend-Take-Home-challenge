@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
+use Exception;
 
 class ArticleService
 {
@@ -52,16 +53,25 @@ class ArticleService
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function searchArticles(string $term, int $perPage): LengthAwarePaginator
     {
         return $this->articleSearchService->search($term)->paginate($this->getPerPage($perPage));
     }
 
-    public function filterArticles(array $filters, $perPage): LengthAwarePaginator
+    /**
+     * @throws Exception
+     */
+    public function filterArticles(array $filters, $perPage): AnonymousResourceCollection
     {
-        return $this->articleFilterService->filter($filters)->paginate($this->getPerPage($perPage));
+        try {
+            $articles = $this->articleFilterService->filter($filters)->paginate($this->getPerPage($perPage));
+            return ArticleResource::collection($articles);
+        } catch (Throwable $e) {
+            Log::error('Error in ArticleService: ' . $e->getMessage());
+            throw new Exception('Error searching for articles', 0, $e);
+        }
     }
 
     /**

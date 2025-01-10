@@ -4,6 +4,9 @@ namespace Tests\Unit;
 
 use App\Models\Article;
 use App\Services\ArticleFilterService;
+use App\Services\ArticleSearchService;
+use App\Services\ArticleService;
+use App\Services\NewsAggregatorService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,11 +15,17 @@ class ArticleFilterUnitTest extends TestCase
     use RefreshDatabase;
 
     private ArticleFilterService $articleFilterService;
+    private ArticleService $articleService;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->articleFilterService = new ArticleFilterService();
+        $this->articleService = new ArticleService(
+            \Mockery::mock(NewsAggregatorService::class),
+            \Mockery::mock(ArticleSearchService::class),
+            $this->articleFilterService
+        );
     }
 
     public function test_filters_by_category()
@@ -56,5 +65,16 @@ class ArticleFilterUnitTest extends TestCase
 
         $this->assertCount(1, $query->get());
         $this->assertEquals('TechCrunch', $query->first()->source);
+    }
+
+    public function test_filters_by_non_existing_source()
+    {
+        Article::factory()->create(['source' => 'TechCrunch']);
+        Article::factory()->create(['source' => 'HealthLine']);
+
+        $filters = ['source' => 'NonExistingSource'];
+        $results = $this->articleService->filterArticles($filters, 10);
+
+        $this->assertCount(0, $results);
     }
 }

@@ -8,9 +8,11 @@ use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\ArticleSearchRequest;
 use App\Http\Resources\ArticleResource;
 use App\Services\ArticleService;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class ArticleController extends Controller
 {
@@ -42,18 +44,23 @@ class ArticleController extends Controller
         return ArticleResource::collection($filteredArticles);
     }
 
-    public function filter(ArticleFilterRequest $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function filter(ArticleFilterRequest $request): AnonymousResourceCollection | JsonResponse
     {
-        $filters = $request->only(['category', 'source', 'start_date', 'end_date']);
+        try {
+            $filters = $request->only(['category', 'source', 'start_date', 'end_date']);
 
-        $perPage = (int) $request->get('per_page');
+            $perPage = (int) $request->get('per_page');
 
-        $filteredArticles = $this->articleService->filterArticles($filters, $perPage);
+            return $this->articleService->filterArticles($filters, $perPage);
 
-        return ArticleResource::collection($filteredArticles);
+        } catch (Throwable $e) {
+            return response()->json([
+                'message' => 'Failed to filter articles',
+            ], 500);
+        }
     }
 
-    public function getArticlesByPreferences(ArticleRequest $request): AnonymousResourceCollection|JsonResponse
+    public function getArticlesByPreferences(ArticleRequest $request): AnonymousResourceCollection | JsonResponse
     {
         try {
 

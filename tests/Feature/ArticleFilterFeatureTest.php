@@ -44,4 +44,16 @@ class ArticleFilterFeatureTest extends TestCase
             ->assertJsonPath('meta.per_page', 10)
             ->assertJsonCount(10, 'data');
     }
+
+
+    public function test_filter_articles_by_non_existing_source()
+    {
+        Article::factory()->create(['source' => 'Source 1']);
+        Article::factory()->create(['source' => 'Source 2']);
+
+        $response = $this->getJson('/api/articles/filter?source=NonExisting');
+
+        $response->assertStatus(200)
+            ->assertJsonCount(0, 'data');
+    }
 }
