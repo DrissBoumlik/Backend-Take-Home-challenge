@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Article;
 
 use App\Contracts\SearchServiceInterface;
 use App\Models\Article;
-use Illuminate\Database\Eloquent\Builder;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 
 class ArticleSearchService implements SearchServiceInterface

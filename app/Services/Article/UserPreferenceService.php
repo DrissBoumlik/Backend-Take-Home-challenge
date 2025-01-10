@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Article;
 
 
 use App\Exceptions\UserPreferenceNotFoundException;
-use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use App\Models\UserPreference;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserPreferenceService
 {
@@ -29,7 +29,7 @@ class UserPreferenceService
         $userPreferences = UserPreference::where('user_id', $user->id)->first();
 
         if (! $userPreferences) {
-            throw new UserPreferenceNotFoundException('User preferences not found', 404);
+            throw new UserPreferenceNotFoundException('User preferences not found', Response::HTTP_NOT_FOUND);
         }
 
         $query = Article::query();

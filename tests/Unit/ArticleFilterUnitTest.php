@@ -3,11 +3,11 @@
 namespace Tests\Unit;
 
 use App\Models\Article;
-use App\Services\ArticleFilterService;
-use App\Services\ArticleSearchService;
-use App\Services\ArticleService;
+use App\Services\Article\ArticleFilterService;
+use App\Services\Article\ArticleSearchService;
+use App\Services\Article\ArticleService;
 use App\Services\NewsAggregatorService;
-use App\Services\UserPreferenceService;
+use App\Services\Article\UserPreferenceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

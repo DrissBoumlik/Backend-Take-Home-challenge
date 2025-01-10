@@ -1,22 +1,19 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Article;
 
 use App\Config\PaginationConfig;
 use App\Exceptions\UserPreferenceNotFoundException;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
-use App\Models\UserPreference;
+use App\Services\NewsAggregatorService;
+use Exception;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
-use Exception;
 
 class ArticleService
 {

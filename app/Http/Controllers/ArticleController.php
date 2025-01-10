@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\UserPreferenceNotFoundException;
 use App\Http\Requests\ArticleFilterRequest;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\ArticleSearchRequest;
-use App\Http\Resources\ArticleResource;
-use App\Services\ArticleService;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use App\Services\Article\ArticleService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Symfony\Component\HttpFoundation\Response;

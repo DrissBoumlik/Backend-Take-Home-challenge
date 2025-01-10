@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\Article;
-use App\Services\ArticleService;
+use App\Services\Article\ArticleService;
 use App\Services\NewsAggregatorService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

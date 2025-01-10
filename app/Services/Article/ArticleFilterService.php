@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Article;
 
 use App\Contracts\FilterServiceInterface;
 use App\Models\Article;

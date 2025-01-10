@@ -5,8 +5,8 @@ namespace Tests\Feature;
 use App\Models\Article;
 use App\Models\User;
 use App\Models\UserPreference;
+use App\Services\Article\ArticleService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 

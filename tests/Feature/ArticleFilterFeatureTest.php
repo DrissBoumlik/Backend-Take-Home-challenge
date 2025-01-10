@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Article;
-use App\Services\ArticleFilterService;
+use App\Services\Article\ArticleFilterService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;

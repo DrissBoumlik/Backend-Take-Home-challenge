@@ -3,10 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Article;
-use App\Services\ArticleSearchService;
-use Illuminate\Database\QueryException;
+use App\Services\Article\ArticleSearchService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
