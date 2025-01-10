@@ -38,11 +38,11 @@ class ArticleIndexTest extends TestCase
 
     public function test_index_throw_exception(): void
     {
-        $mockSearchService = \Mockery::mock(ArticleService::class);
-        $mockSearchService->allows('getAllArticles')
+        $mockArticleService = \Mockery::mock(ArticleService::class);
+        $mockArticleService->allows('getAllArticles')
             ->andThrow(new \Exception('Error fetching articles'));
 
-        $this->app->instance(ArticleService::class, $mockSearchService);
+        $this->app->instance(ArticleService::class, $mockArticleService);
 
         $response = $this->getJson('/api/articles');
 

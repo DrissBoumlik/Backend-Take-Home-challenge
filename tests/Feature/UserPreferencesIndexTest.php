@@ -43,11 +43,11 @@ class UserPreferencesIndexTest extends TestCase
 
     public function test_index_throw_exception(): void
     {
-        $mockSearchService = \Mockery::mock(UserPreferenceService::class);
-        $mockSearchService->allows('getPreferences')
+        $mockUserPreferenceService = \Mockery::mock(UserPreferenceService::class);
+        $mockUserPreferenceService->allows('getPreferences')
             ->andThrow(new \Exception('Failed retrieve user preferences'));
 
-        $this->app->instance(ArticleService::class, $mockSearchService);
+        $this->app->instance(ArticleService::class, $mockUserPreferenceService);
 
         $response = $this->getJson('/api/user/preferences');
 
