@@ -11,6 +11,7 @@ use App\Services\ArticleSearchService;
 use App\Services\ArticleService;
 use App\Services\NewsAggregatorService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class UserPreferencesUnitTest extends TestCase
@@ -44,7 +45,6 @@ class UserPreferencesUnitTest extends TestCase
 
     public function test_get_articles_by_preferences_throws_exception_without_preferences()
     {
-        // Arrange
         $user = User::factory()->create();
         $service = new ArticleService(
             \Mockery::mock(NewsAggregatorService::class),
@@ -52,10 +52,9 @@ class UserPreferencesUnitTest extends TestCase
             \Mockery::mock(ArticleFilterService::class),
         );
 
-        $this->expectException(UserPreferenceNotFoundException::class);
-        $this->expectExceptionMessage('User preferences not found');
-
         $this->actingAs($user);
-        $service->getArticlesByPreferences(10);
+        $response = $service->getArticlesByPreferences(10);
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 }

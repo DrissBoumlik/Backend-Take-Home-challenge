@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\UserPreference;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class UserPreferencesFeatureTest extends TestCase
@@ -42,7 +43,15 @@ class UserPreferencesFeatureTest extends TestCase
 
         $response = $this->getJson('/api/articles/preferences');
 
-        $response->assertStatus(404);
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
         $response->assertJson(['message' => 'User preferences not found']);
+    }
+
+    public function test_get_articles_by_preferences_for_unauthenticated_user()
+    {
+        $response = $this->getJson('/api/articles/preferences');
+
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+        $response->assertJson(['message' => 'Unauthenticated user']);
     }
 }

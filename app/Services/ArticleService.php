@@ -9,8 +9,12 @@ use App\Models\Article;
 use App\Models\UserPreference;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class ArticleService
@@ -65,30 +69,47 @@ class ArticleService
      * @throws AuthenticationException
      * @throws UserPreferenceNotFoundException
      */
-    public function getArticlesByPreferences(int $perPage): AnonymousResourceCollection
+    public function getArticlesByPreferences(int $perPage): AnonymousResourceCollection|JsonResponse
     {
-        $user = Auth::user();
+        try {
+            $user = Auth::user();
 
-        if (! $user) {
-            throw new AuthenticationException('Unauthenticated user');
+            if (! $user) {
+                throw new AuthenticationException('Unauthenticated user');
+            }
+
+            $userPreferences = UserPreference::where('user_id', $user->id)->first();
+
+            if (! $userPreferences) {
+                throw new UserPreferenceNotFoundException('User preferences not found', 404);
+            }
+
+            $query = Article::query();
+
+            $this->applyFilters($query, $userPreferences);
+
+            $articles = $query->latest('published_at')->paginate($this->getPerPage($perPage));
+
+            return ArticleResource::collection($articles);
+
+        } catch (UserPreferenceNotFoundException $e) {
+            Log::warning('User preferences not found: ' . $e->getMessage(), [
+                'user_id' => auth()->id(),
+            ]);
+
+            return response()->json(['message' => 'User preferences not found' ], Response::HTTP_NOT_FOUND);
+        } catch (AuthenticationException $e) {
+            Log::warning('Unauthenticated user: ' . $e->getMessage(), [ 'user_id' => auth()->id() ]);
+
+            return response()->json(['message' => 'Unauthenticated user', ], Response::HTTP_UNAUTHORIZED);
+        } catch (Throwable $e) {
+            Log::error('Error in getting articles by preferences: ' . $e->getMessage(), ['exception' => $e]);
+
+            throw new \Exception("Failed to fetch articles.");
         }
-
-        $userPreferences = UserPreference::where('user_id', $user->id)->first();
-
-        if (! $userPreferences) {
-            throw new UserPreferenceNotFoundException('User preferences not found', 404);
-        }
-
-        $query = Article::query();
-
-        $this->applyFilters($query, $userPreferences);
-
-        $articles = $query->latest('published_at')->paginate($this->getPerPage($perPage));
-
-        return ArticleResource::collection($articles);
     }
 
-    private function applyFilters(\Illuminate\Database\Eloquent\Builder $query, UserPreference $userPreferences): void
+    private function applyFilters(Builder $query, UserPreference $userPreferences): void
     {
         if ($userPreferences->sources) {
             $query->whereIn('source', $userPreferences->sources);

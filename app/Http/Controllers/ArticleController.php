@@ -8,8 +8,8 @@ use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\ArticleSearchRequest;
 use App\Http\Resources\ArticleResource;
 use App\Services\ArticleService;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Symfony\Component\HttpFoundation\Response;
 
 class ArticleController extends Controller
@@ -18,7 +18,7 @@ class ArticleController extends Controller
     {
     }
 
-    public function index(ArticleRequest $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(ArticleRequest $request): AnonymousResourceCollection
     {
         $perPage = (int) $request->get('per_page');
 
@@ -31,7 +31,7 @@ class ArticleController extends Controller
     /**
      * @throws \Exception
      */
-    public function search(ArticleSearchRequest $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function search(ArticleSearchRequest $request): AnonymousResourceCollection
     {
         $term = $request->input('term');
 
@@ -53,25 +53,14 @@ class ArticleController extends Controller
         return ArticleResource::collection($filteredArticles);
     }
 
-    public function getArticlesByPreferences(ArticleRequest $request)
+    public function getArticlesByPreferences(ArticleRequest $request): AnonymousResourceCollection|JsonResponse
     {
         try {
 
-            $perPage = (int) $request->get('per_page');
+            $perPage = (int)$request->get('per_page');
 
             return $this->articleService->getArticlesByPreferences($perPage);
-
-        } catch (UserPreferenceNotFoundException $e) {
-            Log::warning('User preferences not found: ' . $e->getMessage(), [
-                'user_id' => auth()->id(),
-            ]);
-            return response()->json(['message' => 'User preferences not found' ], Response::HTTP_NOT_FOUND);
-        } catch (AuthenticationException $e) {
-            Log::warning('Unauthenticated user: ' . $e->getMessage(), [ 'user_id' => auth()->id() ]);
-            return response()->json(['error' => 'Unauthenticated user', ], Response::HTTP_UNAUTHORIZED);
-        } catch (\Throwable $e) {
-            Log::error('Error in getting articles by preferences: ' . $e->getMessage(), ['exception' => $e]);
-
+        } catch (\Exception $e) {
             return response()->json(['error' => 'An unexpected error occurred. Please try again later.' ],
                 Response::HTTP_BAD_REQUEST);
         }
