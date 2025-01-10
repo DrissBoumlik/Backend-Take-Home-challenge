@@ -37,12 +37,12 @@ class ArticleServiceTest extends TestCase
         $articles = $service->getAllArticles(10);
 
         $this->assertCount(3, $articles);
-        $this->assertArrayHasKey('title', $articles->first()->toArray());
-        $this->assertArrayHasKey('content', $articles->first()->toArray());
-        $this->assertArrayHasKey('author', $articles->first()->toArray());
-        $this->assertArrayHasKey('source', $articles->first()->toArray());
-        $this->assertArrayHasKey('category', $articles->first()->toArray());
-        $this->assertArrayHasKey('published_at', $articles->first()->toArray());
+        $this->assertArrayHasKey('title', $articles[0]->getAttributes());
+        $this->assertArrayHasKey('content', $articles[0]->getAttributes());
+        $this->assertArrayHasKey('author', $articles[0]->getAttributes());
+        $this->assertArrayHasKey('source', $articles[0]->getAttributes());
+        $this->assertArrayHasKey('category', $articles[0]->getAttributes());
+        $this->assertArrayHasKey('published_at', $articles[0]->getAttributes());
     }
 
     public function test_search_articles(): void

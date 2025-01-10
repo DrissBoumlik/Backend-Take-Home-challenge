@@ -3,8 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\Article;
+use App\Services\ArticleSearchService;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class ArticleSearchFeatureTest extends TestCase
@@ -38,4 +41,34 @@ class ArticleSearchFeatureTest extends TestCase
         $response->assertOk();
         $response->assertJsonCount(0, 'data');
     }
+
+    public function test_search_validate_empty_search_term(): void
+    {
+        Article::factory()->create(['title' => 'Article Title']);
+
+        $term = '';
+
+        $response = $this->getJson('/api/articles/search?term=' . $term);
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonPath('errors.term.0', 'The term field is required.');
+    }
+
+    public function test_search_throws_a_search_failure_exception(): void
+    {
+        $mockSearchService = \Mockery::mock(ArticleSearchService::class);
+        $mockSearchService->allows('search')
+            ->andThrow(new \Exception('Something went wrong'));
+
+        $this->app->instance(ArticleSearchService::class, $mockSearchService);
+
+        $term = 'test';
+        $response = $this->getJson('/api/articles/search?term=' . $term);
+
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+        $response->assertJson([
+            'message' => 'Failed to search articles'
+        ]);
+    }
+
 }

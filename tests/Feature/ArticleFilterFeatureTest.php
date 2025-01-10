@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Article;
+use App\Services\ArticleFilterService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class ArticleFilterFeatureTest extends TestCase
@@ -45,7 +47,6 @@ class ArticleFilterFeatureTest extends TestCase
             ->assertJsonCount(10, 'data');
     }
 
-
     public function test_filter_articles_by_non_existing_source(): void
     {
         Article::factory()->create(['source' => 'Source 1']);
@@ -56,4 +57,22 @@ class ArticleFilterFeatureTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonCount(0, 'data');
     }
+
+
+    public function test_filter_throws_a_failure_exception(): void
+    {
+        $mockFilterService = \Mockery::mock(ArticleFilterService::class);
+        $mockFilterService->allows('filter')
+            ->andThrow(new \Exception('Something went wrong'));
+
+        $this->app->instance(ArticleFilterService::class, $mockFilterService);
+
+        $response = $this->getJson('/api/articles/filter?source=Source1&category=Sports');
+
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+        $response->assertJson([
+            'message' => 'Failed to filter articles'
+        ]);
+    }
+
 }
