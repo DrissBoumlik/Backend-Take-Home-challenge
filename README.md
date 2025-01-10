@@ -18,10 +18,9 @@ This project implements the backend functionality for a news aggregator. It fetc
 
 ## Requirements
 
-- **PHP**: Version 8.0+
+- **PHP**: Version 8.1
 - **Composer**: Latest version
-- **Database**: MySQL/PostgreSQL
-- **Laravel**: Framework (pre-installed with dependencies)
+- **Database**: MySQL/SQLite
 
 ---
 
@@ -45,6 +44,7 @@ This project implements the backend functionality for a news aggregator. It fetc
         ```bash
         cp .env.example .env
         ```
+    - Create the file database\database.sqlite if you want to use sqlite
     - Run 
         ```bash 
         php artisan key:generate
