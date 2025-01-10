@@ -54,4 +54,35 @@ class UserPreferencesFeatureTest extends TestCase
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
         $response->assertJson(['message' => 'Unauthenticated user']);
     }
+
+    public function test_filter_by_user_preferences_throws_exception(): void
+    {
+        $mockSearchService = \Mockery::mock(ArticleService::class);
+        $mockSearchService->allows('getArticlesByPreferences')
+            ->andThrow(new \Exception('Failed to fetch articles'));
+
+        $this->app->instance(ArticleService::class, $mockSearchService);
+
+        $response = $this->getJson('/api/articles/preferences');
+
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+        $response->assertJson([
+            'message' => 'An unexpected error occurred. Please try again later.'
+        ]);
+    }
+
+    public function test_filter_by_user_preferences_throws_user_preferences_not_found_exception(): void
+    {
+
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        $response = $this->getJson('/api/articles/preferences');
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        $response->assertJson([
+            'message' => 'User preferences not found'
+        ]);
+    }
 }
