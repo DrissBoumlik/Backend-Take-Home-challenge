@@ -75,4 +75,15 @@ class ArticleFilterFeatureTest extends TestCase
         ]);
     }
 
+    public function test_filter_invalidate_request_parameters(): void
+    {
+        Article::factory()->create(['source' => 'Source 1']);
+        Article::factory()->create(['source' => 'Source 2']);
+
+        $response = $this->getJson('/api/articles/filter?start_date=NotADate');
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonPath('errors.start_date.0', 'The start date field must be a valid date.');
+    }
+
 }
