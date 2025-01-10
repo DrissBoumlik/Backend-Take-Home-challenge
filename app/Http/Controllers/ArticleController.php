@@ -20,19 +20,20 @@ class ArticleController extends Controller
     {
     }
 
-    public function index(ArticleRequest $request): AnonymousResourceCollection
+    public function index(ArticleRequest $request): AnonymousResourceCollection | JsonResponse
     {
-        $perPage = (int) $request->get('per_page');
+        try {
+            $perPage = (int)$request->get('per_page');
 
-        $articles = $this->articleService->getAllArticles($perPage);
-
-        return ArticleResource::collection($articles);
+            return $this->articleService->getAllArticles($perPage);
+        } catch (Throwable $e) {
+                return response()->json([
+                    'message' => 'Failed to retrieve articles',
+                ], Response::HTTP_BAD_REQUEST);
+            }
     }
 
 
-    /**
-     * @throws \Exception
-     */
     public function search(ArticleSearchRequest $request): AnonymousResourceCollection | JsonResponse
     {
         try {
@@ -71,8 +72,8 @@ class ArticleController extends Controller
             $perPage = (int)$request->get('per_page');
 
             return $this->articleService->getArticlesByPreferences($perPage);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'An unexpected error occurred. Please try again later.' ],
+        } catch (\Throwable $e) {
+            return response()->json(['message' => 'An unexpected error occurred. Please try again later.' ],
                 Response::HTTP_BAD_REQUEST);
         }
     }
