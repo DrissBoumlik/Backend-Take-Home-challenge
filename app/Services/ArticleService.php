@@ -4,9 +4,14 @@ namespace App\Services;
 
 use App\Config\PaginationConfig;
 use App\Exceptions\UserPreferenceNotFoundException;
+use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use App\Models\UserPreference;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
+use Throwable;
 
 class ArticleService
 {
@@ -45,48 +50,56 @@ class ArticleService
     /**
      * @throws \Exception
      */
-    public function searchArticles(string $term, int $perPage): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public function searchArticles(string $term, int $perPage): LengthAwarePaginator
     {
         return $this->articleSearchService->search($term)->paginate($this->getPerPage($perPage));
     }
 
-    public function filterArticles(array $filters, $perPage): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public function filterArticles(array $filters, $perPage): LengthAwarePaginator
     {
         return $this->articleFilterService->filter($filters)->paginate($this->getPerPage($perPage));
     }
 
     /**
+     * @throws Throwable
+     * @throws AuthenticationException
      * @throws UserPreferenceNotFoundException
      */
-    public function getArticlesByPreferences(int $perPage): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public function getArticlesByPreferences(int $perPage): AnonymousResourceCollection
     {
         $user = Auth::user();
 
-        $preferences = UserPreference::where('user_id', $user->id)->first();
+        if (! $user) {
+            throw new AuthenticationException('Unauthenticated user');
+        }
 
-        // $preferences = UserPreference::inRandomOrder()->first(); // testing purposes
+        $userPreferences = UserPreference::where('user_id', $user->id)->first();
 
-        if (! $preferences) {
-            throw new UserPreferenceNotFoundException('No preferences found for the user', 404);
+        if (! $userPreferences) {
+            throw new UserPreferenceNotFoundException('User preferences not found', 404);
         }
 
         $query = Article::query();
 
-        if ($preferences->sources) {
-            $query->whereIn('source', $preferences->sources);
+        $this->applyFilters($query, $userPreferences);
+
+        $articles = $query->latest('published_at')->paginate($this->getPerPage($perPage));
+
+        return ArticleResource::collection($articles);
+    }
+
+    private function applyFilters(\Illuminate\Database\Eloquent\Builder $query, UserPreference $userPreferences): void
+    {
+        if ($userPreferences->sources) {
+            $query->whereIn('source', $userPreferences->sources);
         }
 
-        if ($preferences->categories) {
-            $query->whereIn('category', $preferences->categories);
+        if ($userPreferences->categories) {
+            $query->whereIn('category', $userPreferences->categories);
         }
 
-        if ($preferences->authors) {
-            $query->whereIn('author', $preferences->authors);
+        if ($userPreferences->authors) {
+            $query->whereIn('author', $userPreferences->authors);
         }
-        /*
-         * whereIn()->whereIn() or whereIn()->orWhereIn() will depend on the requirements
-         */
-
-        return $query->latest('published_at')->paginate($this->getPerPage($perPage));
     }
 }

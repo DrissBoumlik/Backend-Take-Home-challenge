@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class UserPreferencesUnitTest extends TestCase
+class UserPreferencesFeatureTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -43,6 +43,6 @@ class UserPreferencesUnitTest extends TestCase
         $response = $this->getJson('/api/articles/preferences');
 
         $response->assertStatus(404);
-        $response->assertJson(['message' => 'No preferences found for the user']);
+        $response->assertJson(['message' => 'User preferences not found']);
     }
 }

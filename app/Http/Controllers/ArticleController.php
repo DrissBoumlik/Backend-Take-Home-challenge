@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\UserPreferenceNotFoundException;
 use App\Http\Requests\ArticleFilterRequest;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\ArticleSearchRequest;
 use App\Http\Resources\ArticleResource;
 use App\Services\ArticleService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 
 class ArticleController extends Controller
 {
@@ -51,13 +53,27 @@ class ArticleController extends Controller
         return ArticleResource::collection($filteredArticles);
     }
 
-    public function getArticlesByPreferences(ArticleRequest $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getArticlesByPreferences(ArticleRequest $request)
     {
-        $perPage = (int) $request->get('per_page');
+        try {
 
-        $articles = $this->articleService->getArticlesByPreferences($perPage);
+            $perPage = (int) $request->get('per_page');
 
-        return ArticleResource::collection($articles);
+            return $this->articleService->getArticlesByPreferences($perPage);
 
+        } catch (UserPreferenceNotFoundException $e) {
+            Log::warning('User preferences not found: ' . $e->getMessage(), [
+                'user_id' => auth()->id(),
+            ]);
+            return response()->json(['message' => 'User preferences not found' ], Response::HTTP_NOT_FOUND);
+        } catch (AuthenticationException $e) {
+            Log::warning('Unauthenticated user: ' . $e->getMessage(), [ 'user_id' => auth()->id() ]);
+            return response()->json(['error' => 'Unauthenticated user', ], Response::HTTP_UNAUTHORIZED);
+        } catch (\Throwable $e) {
+            Log::error('Error in getting articles by preferences: ' . $e->getMessage(), ['exception' => $e]);
+
+            return response()->json(['error' => 'An unexpected error occurred. Please try again later.' ],
+                Response::HTTP_BAD_REQUEST);
+        }
     }
 }

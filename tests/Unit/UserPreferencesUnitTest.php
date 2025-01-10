@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Exceptions\UserPreferenceNotFoundException;
 use App\Models\Article;
 use App\Models\User;
 use App\Models\UserPreference;
@@ -51,8 +52,8 @@ class UserPreferencesUnitTest extends TestCase
             \Mockery::mock(ArticleFilterService::class),
         );
 
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('No preferences found for the user');
+        $this->expectException(UserPreferenceNotFoundException::class);
+        $this->expectExceptionMessage('User preferences not found');
 
         $this->actingAs($user);
         $service->getArticlesByPreferences(10);
