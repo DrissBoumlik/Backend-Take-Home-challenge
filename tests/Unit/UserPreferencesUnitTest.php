@@ -10,6 +10,7 @@ use App\Services\ArticleFilterService;
 use App\Services\ArticleSearchService;
 use App\Services\ArticleService;
 use App\Services\NewsAggregatorService;
+use App\Services\UserPreferenceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -35,6 +36,7 @@ class UserPreferencesUnitTest extends TestCase
             \Mockery::mock(NewsAggregatorService::class),
             \Mockery::mock(ArticleSearchService::class),
             \Mockery::mock(ArticleFilterService::class),
+            new UserPreferenceService
         );
 
         $this->actingAs($user);
@@ -50,6 +52,7 @@ class UserPreferencesUnitTest extends TestCase
             \Mockery::mock(NewsAggregatorService::class),
             \Mockery::mock(ArticleSearchService::class),
             \Mockery::mock(ArticleFilterService::class),
+            new UserPreferenceService
         );
 
         $this->actingAs($user);

@@ -24,7 +24,8 @@ class ArticleService
     public function __construct(
         public NewsAggregatorService $newsAggregatorService,
         public ArticleSearchService $articleSearchService,
-        public ArticleFilterService $articleFilterService
+        public ArticleFilterService $articleFilterService,
+        public UserPreferenceService $userPreferenceService
     ) {
 
     }
@@ -88,23 +89,8 @@ class ArticleService
     public function getArticlesByPreferences(int $perPage): AnonymousResourceCollection|JsonResponse
     {
         try {
-            $user = Auth::user();
 
-            if (! $user) {
-                throw new AuthenticationException('Unauthenticated user');
-            }
-
-            $userPreferences = UserPreference::where('user_id', $user->id)->first();
-
-            if (! $userPreferences) {
-                throw new UserPreferenceNotFoundException('User preferences not found', 404);
-            }
-
-            $query = Article::query();
-
-            $this->applyFilters($query, $userPreferences);
-
-            $articles = $query->latest('published_at')->paginate($this->getPerPage($perPage));
+            $articles = $this->userPreferenceService->getArticles($perPage)->paginate($this->getPerPage($perPage));
 
             return ArticleResource::collection($articles);
 
@@ -122,21 +108,6 @@ class ArticleService
             Log::error('Error in getting articles by preferences: ' . $e->getMessage(), ['exception' => $e]);
 
             throw new \Exception("Failed to fetch articles.");
-        }
-    }
-
-    private function applyFilters(Builder $query, UserPreference $userPreferences): void
-    {
-        if ($userPreferences->sources) {
-            $query->whereIn('source', $userPreferences->sources);
-        }
-
-        if ($userPreferences->categories) {
-            $query->whereIn('category', $userPreferences->categories);
-        }
-
-        if ($userPreferences->authors) {
-            $query->whereIn('author', $userPreferences->authors);
         }
     }
 }
