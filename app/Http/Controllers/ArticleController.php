@@ -33,15 +33,19 @@ class ArticleController extends Controller
     /**
      * @throws \Exception
      */
-    public function search(ArticleSearchRequest $request): AnonymousResourceCollection
+    public function search(ArticleSearchRequest $request): AnonymousResourceCollection | JsonResponse
     {
-        $term = $request->input('term');
+        try {
+            $term = $request->input('term');
 
-        $perPage = (int) $request->get('per_page');
+            $perPage = (int) $request->get('per_page');
 
-        $filteredArticles = $this->articleService->searchArticles($term, $perPage);
-
-        return ArticleResource::collection($filteredArticles);
+            return $this->articleService->searchArticles($term, $perPage);
+        } catch (Throwable $e) {
+            return response()->json([
+                'message' => 'Failed to search articles',
+            ], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     public function filter(ArticleFilterRequest $request): AnonymousResourceCollection | JsonResponse
@@ -56,7 +60,7 @@ class ArticleController extends Controller
         } catch (Throwable $e) {
             return response()->json([
                 'message' => 'Failed to filter articles',
-            ], 500);
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
 

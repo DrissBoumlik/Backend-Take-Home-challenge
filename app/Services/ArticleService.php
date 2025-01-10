@@ -55,9 +55,15 @@ class ArticleService
     /**
      * @throws Exception
      */
-    public function searchArticles(string $term, int $perPage): LengthAwarePaginator
+    public function searchArticles(string $term, int $perPage): AnonymousResourceCollection | JsonResponse
     {
-        return $this->articleSearchService->search($term)->paginate($this->getPerPage($perPage));
+        try {
+            $articles = $this->articleSearchService->search($term)->paginate($this->getPerPage($perPage));
+            return ArticleResource::collection($articles);
+        } catch (Throwable $e) {
+            Log::error('Error in ArticleService: ' . $e->getMessage());
+            throw new Exception('Error searching for articles', 0, $e);
+        }
     }
 
     /**
@@ -70,7 +76,7 @@ class ArticleService
             return ArticleResource::collection($articles);
         } catch (Throwable $e) {
             Log::error('Error in ArticleService: ' . $e->getMessage());
-            throw new Exception('Error searching for articles', 0, $e);
+            throw new Exception('Error filtering for articles', 0, $e);
         }
     }
 

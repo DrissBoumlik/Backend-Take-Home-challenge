@@ -6,6 +6,7 @@ use App\Contracts\SearchServiceInterface;
 use App\Models\Article;
 use Illuminate\Database\Eloquent\Builder;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class ArticleSearchService implements SearchServiceInterface
 {
@@ -25,6 +26,7 @@ class ArticleSearchService implements SearchServiceInterface
             $searchQuery = Article::query();
             return $this->buildSearchQuery($searchQuery, $term);
         } catch (\Throwable $e) {
+            Log::error('Search failed: ' . $e->getMessage(), ['term' => $term]);
             throw new Exception('Failed to perform search: ' . $e->getMessage(), 0, $e);
         }
     }
