@@ -9,7 +9,7 @@ class DataSourceManager
     {
         $config = config('news-sources');
         return array_map(
-            fn($source) => $source['class'],
+            fn($source): mixed => $source['class'],
             $config
         );
     }

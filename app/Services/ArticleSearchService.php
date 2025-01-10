@@ -34,8 +34,8 @@ class ArticleSearchService implements SearchServiceInterface
     protected function buildSearchQuery(Builder $query, string $term): Builder
     {
         $term = "%" . preg_replace('/[^A-Za-z0-9]/', '', $term) . "%";
-        $query->where(function ($q) use ($term) {
-            foreach ($this->searchableFields as $index => $field) {
+        $query->where(function ($q) use ($term): void {
+            foreach ($this->searchableFields as $field) {
                 $q->orWhereRaw("regexp_replace($field, '[^A-Za-z0-9]', '') like ?", [$term]);
                 // The regexp_replace do not exist in sqlite, but it was registered in the AppServiceProvider
             }

@@ -14,7 +14,7 @@ class UserPreferencesFeatureTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_get_articles_by_preferences_with_valid_preferences()
+    public function test_get_articles_by_preferences_with_valid_preferences(): void
     {
         $user = User::factory()->create();
         UserPreference::factory()->create([
@@ -35,7 +35,7 @@ class UserPreferencesFeatureTest extends TestCase
         $response->assertJsonCount(2, 'data');
     }
 
-    public function test_get_articles_by_preferences_without_preferences()
+    public function test_get_articles_by_preferences_without_preferences(): void
     {
         $user = User::factory()->create();
 
@@ -47,7 +47,7 @@ class UserPreferencesFeatureTest extends TestCase
         $response->assertJson(['message' => 'User preferences not found']);
     }
 
-    public function test_get_articles_by_preferences_for_unauthenticated_user()
+    public function test_get_articles_by_preferences_for_unauthenticated_user(): void
     {
         $response = $this->getJson('/api/articles/preferences');
 

@@ -28,7 +28,7 @@ class ArticleSearchUnitTest extends TestCase
         );
     }
 
-    public function test_search_builds_correct_query()
+    public function test_search_builds_correct_query(): void
     {
         Article::factory()->create(['title' => 'First Testing Article', 'published_at' => now()->subDays(2)]);
         Article::factory()->create(['title' => 'Second Testing Article', 'published_at' => now()]);
@@ -43,7 +43,7 @@ class ArticleSearchUnitTest extends TestCase
         $this->assertEquals('Second Testing Article', $results[0]->title);
     }
 
-    public function test_search_handles_empty_results()
+    public function test_search_handles_empty_results(): void
     {
         Article::factory()->create(['title' => 'No Match']);
 
@@ -54,7 +54,7 @@ class ArticleSearchUnitTest extends TestCase
         $this->assertCount(0, $results);
     }
 
-    public function test_search_handles_exceptions()
+    public function test_search_handles_exceptions(): void
     {
         $mockService = $this->getMockBuilder(ArticleSearchService::class)
             ->onlyMethods(['buildSearchQuery'])

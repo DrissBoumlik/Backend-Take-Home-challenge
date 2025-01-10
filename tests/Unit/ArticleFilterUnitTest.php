@@ -30,7 +30,7 @@ class ArticleFilterUnitTest extends TestCase
         );
     }
 
-    public function test_filters_by_category()
+    public function test_filters_by_category(): void
     {
         Article::factory()->create(['category' => 'Tech']);
         Article::factory()->create(['category' => 'Health']);
@@ -42,7 +42,7 @@ class ArticleFilterUnitTest extends TestCase
         $this->assertEquals('Tech', $query->first()->category);
     }
 
-    public function test_filters_by_date_range()
+    public function test_filters_by_date_range(): void
     {
         Article::factory()->create(['published_at' => '2025-01-01']);
         Article::factory()->create(['published_at' => '2025-01-03']);
@@ -57,7 +57,7 @@ class ArticleFilterUnitTest extends TestCase
         $this->assertEquals('2025-01-05', $query->first()->published_at->toDateString());
     }
 
-    public function test_filters_by_source()
+    public function test_filters_by_source(): void
     {
         Article::factory()->create(['source' => 'TechCrunch']);
         Article::factory()->create(['source' => 'HealthLine']);
@@ -69,7 +69,7 @@ class ArticleFilterUnitTest extends TestCase
         $this->assertEquals('TechCrunch', $query->first()->source);
     }
 
-    public function test_filters_by_non_existing_source()
+    public function test_filters_by_non_existing_source(): void
     {
         Article::factory()->create(['source' => 'TechCrunch']);
         Article::factory()->create(['source' => 'HealthLine']);

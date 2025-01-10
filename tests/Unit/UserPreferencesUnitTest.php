@@ -19,7 +19,7 @@ class UserPreferencesUnitTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_get_articles_by_preferences_returns_correct_data()
+    public function test_get_articles_by_preferences_returns_correct_data(): void
     {
         $user = User::factory()->create();
         UserPreference::factory()->create([
@@ -45,7 +45,7 @@ class UserPreferencesUnitTest extends TestCase
         $this->assertCount(1, $result->items());
     }
 
-    public function test_get_articles_by_preferences_throws_exception_without_preferences()
+    public function test_get_articles_by_preferences_throws_exception_without_preferences(): void
     {
         $user = User::factory()->create();
         $service = new ArticleService(

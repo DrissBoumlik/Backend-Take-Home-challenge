@@ -10,7 +10,7 @@ class ArticleFilterFeatureTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_filter_articles_by_category()
+    public function test_filter_articles_by_category(): void
     {
         Article::factory()->create(['category' => 'Tech']);
         Article::factory()->create(['category' => 'Health']);
@@ -22,7 +22,7 @@ class ArticleFilterFeatureTest extends TestCase
             ->assertJsonPath('data.0.category', 'Tech');
     }
 
-    public function test_filter_articles_by_date_range()
+    public function test_filter_articles_by_date_range(): void
     {
         Article::factory()->create(['published_at' => '2025-01-01']);
         Article::factory()->create(['published_at' => '2025-01-10']);
@@ -34,7 +34,7 @@ class ArticleFilterFeatureTest extends TestCase
             ->assertJsonPath('data.0.published_at', '2025-01-01T00:00:00.000000Z');
     }
 
-    public function test_filter_articles_with_pagination()
+    public function test_filter_articles_with_pagination(): void
     {
         Article::factory(15)->create();
 
@@ -46,7 +46,7 @@ class ArticleFilterFeatureTest extends TestCase
     }
 
 
-    public function test_filter_articles_by_non_existing_source()
+    public function test_filter_articles_by_non_existing_source(): void
     {
         Article::factory()->create(['source' => 'Source 1']);
         Article::factory()->create(['source' => 'Source 2']);

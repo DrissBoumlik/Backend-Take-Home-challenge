@@ -11,7 +11,7 @@ class ArticleSearchFeatureTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_search_returns_matching_results()
+    public function test_search_returns_matching_results(): void
     {
         $article1 = Article::factory()->create(['title' => 'Laravel Testing Basics']);
         $article2 = Article::factory()->create(['title' => 'PHP Unit Testing Guide']);
@@ -27,7 +27,7 @@ class ArticleSearchFeatureTest extends TestCase
         $response->assertJsonFragment(['title' => $article2->title]);
     }
 
-    public function test_search_handles_no_results_gracefully()
+    public function test_search_handles_no_results_gracefully(): void
     {
         Article::factory()->create(['title' => 'Completely Unrelated Title']);
 
