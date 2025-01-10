@@ -28,8 +28,8 @@ class ArticleSearchUnitTest extends TestCase
 
     public function test_search_builds_correct_query()
     {
-        Article::factory()->create(['title' => 'First Testing Article']);
-        Article::factory()->create(['title' => 'Second Testing Article']);
+        Article::factory()->create(['title' => 'First Testing Article', 'published_at' => now()->subDays(2)]);
+        Article::factory()->create(['title' => 'Second Testing Article', 'published_at' => now()]);
         Article::factory()->create(['title' => 'Unrelated Title']);
 
         $term = 'Testing';
@@ -37,8 +37,8 @@ class ArticleSearchUnitTest extends TestCase
         $results = $this->articleService->searchArticles($term, 10);
 
         $this->assertCount(2, $results);
-        $this->assertEquals('First Testing Article', $results[0]->title);
-        $this->assertEquals('Second Testing Article', $results[1]->title);
+        $this->assertEquals('First Testing Article', $results[1]->title);
+        $this->assertEquals('Second Testing Article', $results[0]->title);
     }
 
     public function test_search_handles_empty_results()
