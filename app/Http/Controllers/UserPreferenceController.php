@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\UserPreferenceResource;
-use App\Models\UserPreference;
+use App\Services\User\UserPreferenceService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserPreferenceController extends Controller
 {
-    public function index(Request $request)
+
+    public function __construct(public readonly UserPreferenceService $userPreferenceService)
+    {
+
+    }
+    public function index(Request $request): AnonymousResourceCollection | JsonResponse
     {
         try {
-            $user = Auth::user();
 
-            $preferences = UserPreference::where('user_id', $user->id)->get();
+            return $this->userPreferenceService->getPreferences();
 
-            return response()->json(UserPreferenceResource::collection($preferences));
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Failed to retrieve user preferences',
