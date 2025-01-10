@@ -30,8 +30,8 @@ This project implements the backend functionality for a news aggregator. It fetc
 1. Clone the repository and navigate to the project folder.
 
     ```bash
-    git clone <repository-url>
-    cd <project-folder>
+    git clone https://github.com/drissboumlik/Backend-Take-Home-challenge/
+    cd Backend-Take-Home-challenge
     ```
 
 2. Install dependencies using Composer.
