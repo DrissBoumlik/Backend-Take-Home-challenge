@@ -108,6 +108,10 @@ Run the project's test suite to ensure all functionalities work as expected.
 php artisan test
 ```
 
+```bash
+php artisan test --parallel --coverage --min=80
+```
+
 ---
 
 ## API Endpoints
