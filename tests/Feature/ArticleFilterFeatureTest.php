@@ -19,7 +19,7 @@ class ArticleFilterFeatureTest extends TestCase
 
         $response = $this->getJson('/api/articles/filter?category=Tech');
 
-        $response->assertStatus(200)
+        $response->assertStatus(Response::HTTP_OK)
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.category', 'Tech');
     }
@@ -31,7 +31,7 @@ class ArticleFilterFeatureTest extends TestCase
 
         $response = $this->getJson('/api/articles/filter?start_date=2025-01-01&end_date=2025-01-05');
 
-        $response->assertStatus(200)
+        $response->assertStatus(Response::HTTP_OK)
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.published_at', '2025-01-01T00:00:00.000000Z');
     }
@@ -42,7 +42,7 @@ class ArticleFilterFeatureTest extends TestCase
 
         $response = $this->getJson('/api/articles/filter?per_page=10');
 
-        $response->assertStatus(200)
+        $response->assertStatus(Response::HTTP_OK)
             ->assertJsonPath('meta.per_page', 10)
             ->assertJsonCount(10, 'data');
     }
@@ -54,7 +54,7 @@ class ArticleFilterFeatureTest extends TestCase
 
         $response = $this->getJson('/api/articles/filter?source=NonExisting');
 
-        $response->assertStatus(200)
+        $response->assertStatus(Response::HTTP_OK)
             ->assertJsonCount(0, 'data');
     }
 

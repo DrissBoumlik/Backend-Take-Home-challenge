@@ -29,7 +29,7 @@ class UserPreferencesIndexTest extends TestCase
 
         $response = $this->getJson('/api/user/preferences');
 
-        $response->assertStatus(200)
+        $response->assertStatus(Response::HTTP_OK)
             ->assertJsonStructure([
                 'data' => [
                     '*' => [
