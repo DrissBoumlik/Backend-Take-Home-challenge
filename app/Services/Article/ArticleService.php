@@ -62,7 +62,7 @@ class ArticleService
     /**
      * @throws Exception
      */
-    public function searchArticles(string $term, int $perPage): AnonymousResourceCollection | JsonResponse
+    public function searchArticles(string $term, int $perPage): AnonymousResourceCollection
     {
         try {
             $articles = $this->articleSearchService->search($term)->paginate($this->getPerPage($perPage));
@@ -92,7 +92,7 @@ class ArticleService
      * @throws AuthenticationException
      * @throws UserPreferenceNotFoundException
      */
-    public function getArticlesByPreferences(int $perPage): AnonymousResourceCollection|JsonResponse
+    public function getArticlesByPreferences(int $perPage): AnonymousResourceCollection | JsonResponse
     {
         try {
 
