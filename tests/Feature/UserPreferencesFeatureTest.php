@@ -44,7 +44,7 @@ class UserPreferencesFeatureTest extends TestCase
         $response = $this->getJson('/api/v1/articles/preferences');
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
-        $response->assertJson(['message' => 'Articles by user preferences not found']);
+        $response->assertJson(['message' => 'User preferences not found']);
     }
 
     public function test_get_articles_by_preferences_for_unauthenticated_user(): void
@@ -68,21 +68,6 @@ class UserPreferencesFeatureTest extends TestCase
         $response->assertStatus(Response::HTTP_BAD_REQUEST);
         $response->assertJson([
             'message' => 'An unexpected error occurred. Please try again later.'
-        ]);
-    }
-
-    public function test_filter_by_user_preferences_throws_user_preferences_not_found_exception(): void
-    {
-
-        $user = User::factory()->create();
-
-        $this->actingAs($user);
-
-        $response = $this->getJson('/api/v1/articles/preferences');
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
-        $response->assertJson([
-            'message' => 'Articles by user preferences not found'
         ]);
     }
 }

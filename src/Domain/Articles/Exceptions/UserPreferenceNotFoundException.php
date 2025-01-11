@@ -4,7 +4,7 @@ namespace Domain\Articles\Exceptions;
 
 use Symfony\Component\HttpFoundation\Response;
 
-class ArticlesByUserPreferenceNotFoundException extends \Exception
+class UserPreferenceNotFoundException extends \Exception
 {
     public function render(): \Illuminate\Http\JsonResponse
     {
