@@ -28,7 +28,8 @@ This project implements the backend functionality for a news aggregator. It fetc
 ## Project Structure
 
 
-Note: If you would like to go back to the default laravel structure run:
+Note: If you would like to go back to the default laravel structure 
+go to [laravel_default_structure](https://github.com/DrissBoumlik/Backend-Take-Home-challenge/tree/laravel_default_structure) or run:
 
 ```bash
 git checkout laravel_default_structure
