@@ -33,6 +33,12 @@ This project implements the backend functionality for a news aggregator. It fetc
     cd Backend-Take-Home-challenge
     ```
 
+    1.1 Note: If you would like to check the structure grouped by domain, run:
+        
+    ```bash
+    git checkout refactor_to_group_by_domain
+    ```
+
 2. Install dependencies using Composer.
 
     ```bash
@@ -74,22 +80,16 @@ This project implements the backend functionality for a news aggregator. It fetc
 
 To automatically import articles hourly, set up a Laravel scheduler:
 
-1. Open `app/Console/Kernel.php` and ensure the scheduled task is defined.
-
-    ```php
-    protected function schedule(Schedule $schedule)
-    {
-        $schedule->command('articles:import')->hourly();
-    }
-    ```
-
-2. Start the scheduler using a cron job:
+- Start the scheduler using a cron job:
     - Add the appropriate command to your crontab.
 
         ```bash
         * * * * * php /path/to/your/project/artisan schedule:run >> /dev/null 2>&1
         ```
-
+    - Or by running:
+        ```bash
+        php artisan schedule:run
+        ```
 
 ### Manual Import
 
