@@ -3,7 +3,7 @@
 namespace Domain\Articles\Services;
 
 use App\Config\PaginationConfig;
-use Domain\Articles\Exceptions\ArticlesByUserPreferenceNotFoundException;
+use Domain\Articles\Exceptions\UserPreferenceNotFoundException;
 use Domain\Articles\Http\Resources\ArticleResource;
 use Domain\Articles\Models\Article;
 use Domain\NewsApis\Services\NewsAggregatorService;
@@ -90,7 +90,7 @@ class ArticleService
     /**
      * @throws Throwable
      * @throws AuthenticationException
-     * @throws ArticlesByUserPreferenceNotFoundException
+     * @throws UserPreferenceNotFoundException
      */
     public function getArticlesByPreferences(int $perPage): AnonymousResourceCollection | JsonResponse
     {
@@ -100,12 +100,12 @@ class ArticleService
 
             return ArticleResource::collection($articles);
 
-        } catch (ArticlesByUserPreferenceNotFoundException $e) {
-            Log::warning('Articles by user preferences not found: ' . $e->getMessage(), [
+        } catch (UserPreferenceNotFoundException $e) {
+            Log::warning('User preferences not found: ' . $e->getMessage(), [
                 'user_id' => auth()->id(),
             ]);
 
-            return response()->json(['message' => 'Articles by user preferences not found' ], Response::HTTP_NOT_FOUND);
+            return response()->json(['message' => 'User preferences not found' ], Response::HTTP_NOT_FOUND);
         } catch (AuthenticationException $e) {
             Log::warning('Unauthenticated user: ' . $e->getMessage(), [ 'user_id' => auth()->id() ]);
 

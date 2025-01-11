@@ -44,7 +44,7 @@ class UserPreferencesFeatureTest extends TestCase
         $response = $this->getJson('/api/v1/articles/preferences');
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
-        $response->assertJson(['message' => 'Articles by user preferences not found']);
+        $response->assertJson(['message' => 'User preferences not found']);
     }
 
     public function test_get_articles_by_preferences_for_unauthenticated_user(): void
@@ -82,7 +82,7 @@ class UserPreferencesFeatureTest extends TestCase
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
         $response->assertJson([
-            'message' => 'Articles by user preferences not found'
+            'message' => 'User preferences not found'
         ]);
     }
 }
