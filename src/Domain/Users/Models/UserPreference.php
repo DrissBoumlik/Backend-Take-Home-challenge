@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\User\Models;
+namespace Domain\Users\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,7 +24,7 @@ class UserPreference extends Model
 
     protected static function newFactory()
     {
-        return \Domain\User\database\factories\UserPreferenceFactory::new();
+        return \Domain\Users\database\factories\UserPreferenceFactory::new();
     }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo

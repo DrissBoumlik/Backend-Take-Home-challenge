@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\User\Models;
+namespace Domain\Users\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,7 +45,7 @@ class User extends Authenticatable
 
     protected static function newFactory()
     {
-        return \Domain\User\database\factories\UserFactory::new();
+        return \Domain\Users\database\factories\UserFactory::new();
     }
 
     public function userPreferences(): \Illuminate\Database\Eloquent\Relations\HasMany

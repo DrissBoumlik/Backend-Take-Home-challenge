@@ -5,7 +5,7 @@ namespace Domain\Articles\Services;
 
 use Domain\Articles\Exceptions\ArticlesByUserPreferenceNotFoundException;
 use Domain\Articles\Models\Article;
-use Domain\User\Models\UserPreference;
+use Domain\Users\Models\UserPreference;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;

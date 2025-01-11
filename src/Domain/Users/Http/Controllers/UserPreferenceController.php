@@ -1,10 +1,10 @@
 <?php
 
-namespace Domain\User\Http\Controllers;
+namespace Domain\Users\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Services\CacheService;
-use Domain\User\Services\UserPreferenceService;
+use Domain\Users\Services\UserPreferenceService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;

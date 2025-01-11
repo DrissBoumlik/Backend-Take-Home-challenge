@@ -1,7 +1,7 @@
 <?php
 
 use Domain\Articles\Http\Controllers\ArticleController;
-use Domain\User\Http\Controllers\UserPreferenceController;
+use Domain\Users\Http\Controllers\UserPreferenceController;
 use Illuminate\Support\Facades\Route;
 
 /*

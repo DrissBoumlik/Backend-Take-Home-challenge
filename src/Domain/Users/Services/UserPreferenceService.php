@@ -1,10 +1,10 @@
 <?php
 
-namespace Domain\User\Services;
+namespace Domain\Users\Services;
 
 
-use Domain\User\Http\Resources\UserPreferenceResource;
-use Domain\User\Models\UserPreference;
+use Domain\Users\Http\Resources\UserPreferenceResource;
+use Domain\Users\Models\UserPreference;
 use Exception;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;

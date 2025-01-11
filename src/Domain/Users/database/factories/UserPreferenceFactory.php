@@ -1,13 +1,13 @@
 <?php
 
-namespace Domain\User\database\factories;
+namespace Domain\Users\database\factories;
 
-use Domain\User\Models\User;
-use Domain\User\Models\UserPreference;
+use Domain\Users\Models\User;
+use Domain\Users\Models\UserPreference;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Domain\User\Models\UserPreference>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Domain\Users\Models\UserPreference>
  */
 class UserPreferenceFactory extends Factory
 {

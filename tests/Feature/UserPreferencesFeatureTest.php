@@ -4,8 +4,8 @@ namespace Tests\Feature;
 
 use Domain\Articles\Models\Article;
 use Domain\Articles\Services\ArticleService;
-use Domain\User\Models\User;
-use Domain\User\Models\UserPreference;
+use Domain\Users\Models\User;
+use Domain\Users\Models\UserPreference;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
