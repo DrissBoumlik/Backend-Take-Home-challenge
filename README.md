@@ -37,13 +37,13 @@ git checkout laravel_default_structure
 ```
 app
 ├── Config                      # Contains Configuration classes (pagination & ttl for caching)
-├── Console         
+├── Console                     # Registers artisan commands from src/ directory
 ├── Contracts                   # Shared interfaces and contracts
-├── Services                    #Application-wide services
+├── Services                    # Application-wide services
 
 src
 ├── Domain                      # Domain-specific layers
-├   ├── Articles                # Handles articles-related logic
+│   ├── Articles                # Handles articles-related logic
 │   │   ├── database/factories  # Used in testing
 │   │   ├── Exceptions          # Custom exceptions for articles
 │   │   ├── Http
