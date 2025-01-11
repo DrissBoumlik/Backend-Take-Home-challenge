@@ -77,7 +77,7 @@ class ArticleController extends Controller
 
                 $perPage = (int) $request->get('per_page');
 
-                return $this->articleService->getArticlesByPreferences($perPage);
+                return $this->articleService->getArticlesByUserPreferences($perPage);
             }, $request->has('forget'));
         } catch (\Throwable $e) {
             return response()->json(['message' => 'An unexpected error occurred. Please try again later.' ],

@@ -92,7 +92,7 @@ class ArticleService
      * @throws AuthenticationException
      * @throws UserPreferenceNotFoundException
      */
-    public function getArticlesByPreferences(int $perPage): AnonymousResourceCollection | JsonResponse
+    public function getArticlesByUserPreferences(int $perPage): AnonymousResourceCollection | JsonResponse
     {
         try {
 

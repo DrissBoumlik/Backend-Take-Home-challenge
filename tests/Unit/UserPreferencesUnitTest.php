@@ -39,7 +39,7 @@ class UserPreferencesUnitTest extends TestCase
         );
 
         $this->actingAs($user);
-        $result = $service->getArticlesByPreferences(10);
+        $result = $service->getArticlesByUserPreferences(10);
 
         $this->assertCount(1, $result->items());
     }
@@ -55,7 +55,7 @@ class UserPreferencesUnitTest extends TestCase
         );
 
         $this->actingAs($user);
-        $response = $service->getArticlesByPreferences(10);
+        $response = $service->getArticlesByUserPreferences(10);
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
