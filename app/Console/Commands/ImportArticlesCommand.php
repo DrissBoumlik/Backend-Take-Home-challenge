@@ -26,10 +26,10 @@ class ImportArticlesCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(NewsAggregatorService $newsAggregatorService, DataSourceManager $dataSourceManager)
+    public function handle(NewsAggregatorService $newsAggregatorService)
     {
 
-        $dataSources = $dataSourceManager->getDataSources();
+        $dataSources = $newsAggregatorService->dataSourceManager->getDataSources();
 
         $this->line('Fetching articles from APIs...');
         foreach ($dataSources as $sourceClass) {
