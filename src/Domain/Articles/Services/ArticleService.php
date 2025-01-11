@@ -105,7 +105,7 @@ class ArticleService
                 'user_id' => auth()->id(),
             ]);
 
-            return response()->json(['message' => 'User preferences not found' ], Response::HTTP_NOT_FOUND);
+            return response()->json(['message' => 'Articles by user preferences not found' ], Response::HTTP_NOT_FOUND);
         } catch (AuthenticationException $e) {
             Log::warning('Unauthenticated user: ' . $e->getMessage(), [ 'user_id' => auth()->id() ]);
 
