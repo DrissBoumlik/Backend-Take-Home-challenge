@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Article;
 use App\Models\User;
 use App\Models\UserPreference;
+use App\Services\Article\ArticlesByUserPreferenceService;
 use App\Services\Article\ArticleService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,6 +65,23 @@ class UserPreferencesFeatureTest extends TestCase
         $this->app->instance(ArticleService::class, $mockArticleService);
 
         $response = $this->getJson('/api/v1/articles/preferences');
+
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+        $response->assertJson([
+            'message' => 'An unexpected error occurred. Please try again later.'
+        ]);
+    }
+
+    public function test_get_articles_by_user_preferences_handles_generic_exception()
+    {
+        $mockSearchService = \Mockery::mock(ArticlesByUserPreferenceService::class);
+        $mockSearchService->allows('getArticles')
+            ->andThrow(new \Exception('Failed to fetch articles.'));
+
+        $this->app->instance(ArticlesByUserPreferenceService::class, $mockSearchService);
+
+        $response = $this->getJson('/api/v1/articles/preferences');
+
 
         $response->assertStatus(Response::HTTP_BAD_REQUEST);
         $response->assertJson([
