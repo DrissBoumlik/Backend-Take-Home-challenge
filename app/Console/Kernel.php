@@ -2,13 +2,18 @@
 
 namespace App\Console;
 
-use App\Services\Article\ArticleService;
+use Domain\Articles\Services\ArticleService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
+
+    protected $commands = [
+        \Domain\NewsApis\Console\Commands\ImportArticlesCommand::class,
+    ];
+
     /**
      * Define the application's command schedule.
      */

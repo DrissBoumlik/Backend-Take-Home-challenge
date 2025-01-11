@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use App\Models\Article;
-use App\Services\Article\ArticleService;
-use App\Services\NewsAggregatorService;
+use Domain\Articles\Models\Article;
+use Domain\Articles\Services\ArticleService;
+use Domain\NewsApis\Services\NewsAggregatorService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

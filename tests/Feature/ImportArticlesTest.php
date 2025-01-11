@@ -2,13 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\Article;
-use App\Services\DataSourceManager;
-use App\Services\NewsAggregatorService;
-use App\Services\NewsApis\GuardianService;
-use App\Services\NewsApis\NewsApiService;
+use Domain\NewsApis\Services\DataSourceManager;
+use Domain\NewsApis\Services\NewsAggregatorService;
+use Domain\NewsApis\Services\Sources\GuardianService;
+use Domain\NewsApis\Services\Sources\NewsApiService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Http;
 use Mockery;
 use Tests\TestCase;

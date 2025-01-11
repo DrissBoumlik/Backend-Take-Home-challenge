@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\Article;
-use App\Services\Article\ArticleFilterService;
+use Domain\Articles\Models\Article;
+use Domain\Articles\Services\ArticleFilterService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
