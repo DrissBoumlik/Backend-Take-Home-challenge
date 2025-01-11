@@ -24,6 +24,15 @@ This project implements the backend functionality for a news aggregator. It fetc
 
 ---
 
+
+Note: If you would like to go back to the default laravel structure  go to [laravel_default_structure](https://github.com/DrissBoumlik/Backend-Take-Home-challenge/tree/master) or run:
+
+```bash
+git checkout master
+```
+
+---
+
 ## Setup and Run the App
 
 1. Clone the repository and navigate to the project folder.
