@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\Article;
-use App\Services\Article\ArticleSearchService;
+use Domain\Articles\Models\Article;
+use Domain\Articles\Services\ArticleSearchService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;

@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use App\Models\UserPreference;
-use App\Services\Article\ArticleService;
-use App\Services\User\UserPreferenceService;
+use Domain\Articles\Services\ArticleService;
+use Domain\Users\Models\User;
+use Domain\Users\Models\UserPreference;
+use Domain\Users\Services\UserPreferenceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;

@@ -2,7 +2,7 @@
 
 return [
     'newsapi' => [
-        'class' => \App\Services\NewsApis\NewsApiService::class,
+        'class' => \Domain\NewsApis\Services\Sources\NewsApiService::class,
         'config' => [
             'url' => 'https://newsapi.org/v2/top-headlines',
             'source' => 'NewsAPI',
@@ -10,7 +10,7 @@ return [
         ],
     ],
     'guardian' => [
-        'class' => \App\Services\NewsApis\GuardianService::class,
+        'class' => \Domain\NewsApis\Services\Sources\GuardianService::class,
         'config' => [
             'url' => 'https://content.guardianapis.com/search',
             'source' => 'The Guardian',
@@ -18,7 +18,7 @@ return [
         ],
     ],
     'ny_times' => [
-        'class' => \App\Services\NewsApis\NYTimesService::class,
+        'class' => \Domain\NewsApis\Services\Sources\NYTimesService::class,
         'config' => [
             'url' => 'https://api.nytimes.com/svc/topstories/v2/home.json',
             'source' => 'New York Times',

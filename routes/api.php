@@ -1,8 +1,8 @@
 <?php
 
+use Domain\Articles\Http\Controllers\ArticleController;
+use Domain\Users\Http\Controllers\UserPreferenceController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\UserPreferenceController;
 
 /*
 |--------------------------------------------------------------------------

@@ -2,14 +2,14 @@
 
 namespace Tests\Unit;
 
-use App\Models\Article;
-use App\Models\User;
-use App\Models\UserPreference;
-use App\Services\Article\ArticleFilterService;
-use App\Services\Article\ArticleSearchService;
-use App\Services\Article\ArticleService;
-use App\Services\NewsAggregatorService;
-use App\Services\Article\ArticlesByUserPreferenceService;
+use Domain\Articles\Models\Article;
+use Domain\Articles\Services\ArticleFilterService;
+use Domain\Articles\Services\ArticlesByUserPreferenceService;
+use Domain\Articles\Services\ArticleSearchService;
+use Domain\Articles\Services\ArticleService;
+use Domain\NewsApis\Services\NewsAggregatorService;
+use Domain\Users\Models\User;
+use Domain\Users\Models\UserPreference;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
