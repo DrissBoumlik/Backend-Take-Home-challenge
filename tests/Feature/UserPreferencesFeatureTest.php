@@ -58,7 +58,7 @@ class UserPreferencesFeatureTest extends TestCase
     public function test_filter_by_user_preferences_throws_exception(): void
     {
         $mockArticleService = \Mockery::mock(ArticleService::class);
-        $mockArticleService->allows('getArticlesByPreferences')
+        $mockArticleService->allows('getArticlesByUserPreferences')
             ->andThrow(new \Exception('Failed to fetch articles'));
 
         $this->app->instance(ArticleService::class, $mockArticleService);
