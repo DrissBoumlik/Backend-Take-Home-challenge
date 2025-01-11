@@ -74,22 +74,16 @@ This project implements the backend functionality for a news aggregator. It fetc
 
 To automatically import articles hourly, set up a Laravel scheduler:
 
-1. Open `app/Console/Kernel.php` and ensure the scheduled task is defined.
-
-    ```php
-    protected function schedule(Schedule $schedule)
-    {
-        $schedule->command('articles:import')->hourly();
-    }
-    ```
-
-2. Start the scheduler using a cron job:
+- Start the scheduler using a cron job:
     - Add the appropriate command to your crontab.
 
         ```bash
         * * * * * php /path/to/your/project/artisan schedule:run >> /dev/null 2>&1
         ```
-
+    - Or by running:
+        ```bash
+        php artisan schedule:run
+        ```
 
 ### Manual Import
 
