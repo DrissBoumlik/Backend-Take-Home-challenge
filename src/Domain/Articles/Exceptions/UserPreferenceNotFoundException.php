@@ -2,14 +2,12 @@
 
 namespace Domain\Articles\Exceptions;
 
-use Symfony\Component\HttpFoundation\Response;
+use Exception;
 
-class UserPreferenceNotFoundException extends \Exception
+class UserPreferenceNotFoundException extends Exception
 {
-    public function render(): \Illuminate\Http\JsonResponse
+    public function __construct($message = "User Preferences Not Found", $code = 0, Exception $previous = null)
     {
-        return response()->json([
-            'message' => $this->getMessage(),
-        ], Response::HTTP_NOT_FOUND);
+        parent::__construct($message, $code, $previous);
     }
 }
