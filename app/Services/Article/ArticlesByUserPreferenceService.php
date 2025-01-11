@@ -3,7 +3,7 @@
 namespace App\Services\Article;
 
 
-use App\Exceptions\UserPreferenceNotFoundException;
+use App\Exceptions\ArticlesByUserPreferenceNotFoundException;
 use App\Models\Article;
 use App\Models\UserPreference;
 use Illuminate\Auth\AuthenticationException;
@@ -16,7 +16,7 @@ class ArticlesByUserPreferenceService
 
     /**
      * @throws AuthenticationException
-     * @throws UserPreferenceNotFoundException
+     * @throws ArticlesByUserPreferenceNotFoundException
      */
     public function getArticles(int $perPage): Builder
     {
@@ -29,7 +29,7 @@ class ArticlesByUserPreferenceService
         $userPreferences = UserPreference::where('user_id', $user->id)->first();
 
         if (! $userPreferences) {
-            throw new UserPreferenceNotFoundException('User preferences not found', Response::HTTP_NOT_FOUND);
+            throw new ArticlesByUserPreferenceNotFoundException('Articles by user preferences not found', Response::HTTP_NOT_FOUND);
         }
 
         $query = Article::query();
