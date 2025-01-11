@@ -18,7 +18,7 @@ class ArticlesByUserPreferenceService
      * @throws AuthenticationException
      * @throws UserPreferenceNotFoundException
      */
-    public function getArticles(int $perPage): Builder
+    public function getArticles(): Builder
     {
         $user = Auth::user();
 

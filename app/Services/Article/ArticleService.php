@@ -96,7 +96,7 @@ class ArticleService
     {
         try {
 
-            $articles = $this->userPreferenceService->getArticles($perPage)->paginate($this->getPerPage($perPage));
+            $articles = $this->userPreferenceService->getArticles()->paginate($this->getPerPage($perPage));
 
             return ArticleResource::collection($articles);
 
