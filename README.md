@@ -7,12 +7,13 @@ This project implements the backend functionality for a news aggregator. It fetc
 ## Table of Contents
 
 1. [Requirements](#requirements)
-2. [Setup and Run the App](#setup-and-run-the-app)
-3. [Import Articles from Sources](#import-articles-from-sources)
+2. [Project Structure](#project-structure)
+3. [Setup and Run the App](#setup-and-run-the-app)
+4. [Import Articles from Sources](#import-articles-from-sources)
     - [Scheduled Import](#scheduled-import)
     - [Manual Import](#manual-import)
-4. [Run Tests](#run-tests)
-5. [API Endpoints](#api-endpoints)
+5. [Run Tests](#run-tests)
+6. [API Endpoints](#api-endpoints)
 
 ---
 
@@ -24,6 +25,47 @@ This project implements the backend functionality for a news aggregator. It fetc
 
 ---
 
+## Project Structure
+
+
+Note: If you would like to go back to the default laravel structure run:
+
+```bash
+git checkout laravel_default_structure
+```
+
+```
+app
+├── Config                      # Contains Configuration classes (pagination & ttl for caching)
+├── Console         
+├── Contracts                   # Shared interfaces and contracts
+├── Services                    #Application-wide services
+
+src
+├── Domain                      # Domain-specific layers
+├   ├── Articles                # Handles articles-related logic
+│   │   ├── database/factories  # Used in testing
+│   │   ├── Exceptions          # Custom exceptions for articles
+│   │   ├── Http
+│   │   │   ├── Controllers     # Handles article-related functionality
+│   │   │   ├── Requests        # Form request validations for articles
+│   │   │   └── Resources       # API resource transformations for articles
+│   │   ├── Models              # Articles eloquent models
+│   │   └── Services            # Business logic services for articles
+│   ├── NewsApis                # Handles news API integrations
+│   │   ├── Console             # Artisan command for importing articles from apis sources
+│   │   ├── Contracts           # Interface definitions for APIs
+│   │   └── Services            # Services for news APIs
+│   │   │   └── Sources         # Specific source-related service logic
+│   └── Users                   # Handles user-related functionality
+│   │   ├── database/factories  # Used in testing
+│   │   ├── Http
+│   │   │   ├── Controllers     # Handles user-related functionality (preferences)
+│   │   │   └── Resources       # User preferences resource transformations
+│   │   ├── Models              # User & User preferences eloquent models
+│   │   └── Services            # Business logic services for user preferences
+```
+
 ## Setup and Run the App
 
 1. Clone the repository and navigate to the project folder.
@@ -31,12 +73,6 @@ This project implements the backend functionality for a news aggregator. It fetc
     ```bash
     git clone https://github.com/drissboumlik/Backend-Take-Home-challenge/
     cd Backend-Take-Home-challenge
-    ```
-
-    1.1 Note: If you would like to check the structure grouped by domain, run:
-        
-    ```bash
-    git checkout refactor_to_group_by_domain
     ```
 
 2. Install dependencies using Composer.
