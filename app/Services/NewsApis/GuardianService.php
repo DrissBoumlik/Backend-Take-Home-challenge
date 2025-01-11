@@ -13,13 +13,14 @@ class GuardianService implements ApiSource
     private string $url;
     private string $apiKey;
     private string $name;
-    private mixed $articles;
+    private array $articles;
 
     public function __construct()
     {
         $this->url = config('news-sources.guardian.config.url');
         $this->apiKey = config('news-sources.guardian.config.apikey');
         $this->name = config('news-sources.guardian.config.source');
+        $this->articles = [];
     }
 
     /**
@@ -63,6 +64,11 @@ class GuardianService implements ApiSource
         }
 
         return $articles;
+    }
+
+    public function getArticles(): array
+    {
+        return $this->articles;
     }
 
     public function getName(): string

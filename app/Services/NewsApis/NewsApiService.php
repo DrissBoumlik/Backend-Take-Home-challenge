@@ -12,13 +12,14 @@ class NewsApiService implements ApiSource
     private string $url;
     private string $apiKey;
     private string $name;
-    private mixed $articles;
+    private array $articles;
 
     public function __construct()
     {
         $this->url = config('news-sources.newsapi.config.url');
         $this->apiKey = config('news-sources.newsapi.config.apikey');
         $this->name = config('news-sources.newsapi.config.source');
+        $this->articles = [];
     }
 
     /**
@@ -63,6 +64,11 @@ class NewsApiService implements ApiSource
         }
 
         return $articles;
+    }
+
+    public function getArticles(): array
+    {
+        return $this->articles;
     }
 
     public function getName(): string
