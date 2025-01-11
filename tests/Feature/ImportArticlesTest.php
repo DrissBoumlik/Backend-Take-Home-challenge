@@ -68,7 +68,7 @@ class ImportArticlesTest extends TestCase
         $this->assertDatabaseCount('articles', 0);
     }
 
-    public function test_fetch_articles_handles_failed_response()
+    public function test_fetch_articles_handles_failed_response(): void
     {
         config()->set('news-sources.newsapi.config.url', 'https://mock-newsapi.org/v2/top-headlines');
         config()->set('news-sources.guardian.config.url', 'https://mock-content.guardianapis.com/search');
