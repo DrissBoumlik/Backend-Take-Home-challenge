@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Domain\Articles\Models\Article;
+use Domain\Articles\Services\ArticlesByUserPreferenceService;
 use Domain\Articles\Services\ArticleService;
 use Domain\Users\Models\User;
 use Domain\Users\Models\UserPreference;
@@ -70,4 +71,22 @@ class UserPreferencesFeatureTest extends TestCase
             'message' => 'An unexpected error occurred. Please try again later.'
         ]);
     }
+
+    public function test_get_articles_by_user_preferences_handles_generic_exception()
+    {
+        $mockSearchService = \Mockery::mock(ArticlesByUserPreferenceService::class);
+        $mockSearchService->allows('getArticles')
+            ->andThrow(new \Exception('Failed to fetch articles.'));
+
+        $this->app->instance(ArticlesByUserPreferenceService::class, $mockSearchService);
+
+        $response = $this->getJson('/api/v1/articles/preferences');
+
+
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+        $response->assertJson([
+            'message' => 'An unexpected error occurred. Please try again later.'
+        ]);
+    }
+
 }
