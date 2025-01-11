@@ -22,7 +22,7 @@ class ArticleService
         public NewsAggregatorService $newsAggregatorService,
         public ArticleSearchService $articleSearchService,
         public ArticleFilterService $articleFilterService,
-        public UserPreferenceService $userPreferenceService
+        public ArticlesByUserPreferenceService $userPreferenceService
     ) {
 
     }

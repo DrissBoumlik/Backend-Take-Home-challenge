@@ -7,7 +7,7 @@ use App\Services\Article\ArticleFilterService;
 use App\Services\Article\ArticleSearchService;
 use App\Services\Article\ArticleService;
 use App\Services\NewsAggregatorService;
-use App\Services\Article\UserPreferenceService;
+use App\Services\Article\ArticlesByUserPreferenceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -24,7 +24,7 @@ class ArticleSearchUnitTest extends TestCase
             \Mockery::mock(NewsAggregatorService::class),
             new ArticleSearchService,
             \Mockery::mock(ArticleFilterService::class),
-            \Mockery::mock(UserPreferenceService::class),
+            \Mockery::mock(ArticlesByUserPreferenceService::class),
         );
     }
 
