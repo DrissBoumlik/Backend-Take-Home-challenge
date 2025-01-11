@@ -37,26 +37,18 @@ class ArticleService
         $this->newsAggregatorService->importArticles();
     }
 
-    /**
-     * @throws Exception
-     */
     public function getAllArticles($perPage): AnonymousResourceCollection
     {
-        try {
-            $articles = Article::select([
-                'id',
-                'title',
-                'content',
-                'author',
-                'source',
-                'category',
-                'published_at'
-            ])->latest('published_at')->paginate($this->getPerPage($perPage));
-            return ArticleResource::collection($articles);
-        } catch (Exception $e) {
-            Log::error('Error in ArticleService: ' . $e->getMessage());
-            throw new Exception('Error fetching articles', 0, $e);
-        }
+        $articles = Article::select([
+            'id',
+            'title',
+            'content',
+            'author',
+            'source',
+            'category',
+            'published_at'
+        ])->latest('published_at')->paginate($this->getPerPage($perPage));
+        return ArticleResource::collection($articles);
     }
 
     /**
