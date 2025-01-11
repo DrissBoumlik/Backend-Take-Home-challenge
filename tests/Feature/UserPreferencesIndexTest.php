@@ -47,13 +47,23 @@ class UserPreferencesIndexTest extends TestCase
         $mockUserPreferenceService->allows('getPreferences')
             ->andThrow(new \Exception('Failed retrieve user preferences'));
 
-        $this->app->instance(ArticleService::class, $mockUserPreferenceService);
+        $this->app->instance(UserPreferenceService::class, $mockUserPreferenceService);
 
         $response = $this->getJson('/api/v1/user/preferences');
 
         $response->assertStatus(Response::HTTP_BAD_REQUEST);
         $response->assertJson([
             'message' => 'Failed to retrieve user preferences'
+        ]);
+    }
+
+    public function test_index_throw_unauthorized_exception(): void
+    {
+        $response = $this->getJson('/api/v1/user/preferences');
+
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+        $response->assertJson([
+            'message' => 'Unauthenticated user'
         ]);
     }
 }
