@@ -3,47 +3,24 @@
 namespace Domain\NewsApis\Services\Sources;
 
 use Carbon\Carbon;
-use Domain\NewsApis\Contracts\ApiSource;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
-class NewsApiService implements ApiSource
+class NewsApiService extends SourceService
 {
-    private string $url;
-    private string $apiKey;
-    private string $name;
-    private array $articles;
-
-    public function __construct()
+    /**
+     * @param array<string, mixed> $extraQueryParameters
+     */
+    public function setConfig(): self
     {
         $this->url = config('news-sources.newsapi.config.url');
         $this->apiKey = config('news-sources.newsapi.config.apikey');
         $this->name = config('news-sources.newsapi.config.source');
-        $this->articles = [];
-    }
 
-    /**
-     * @throws \Throwable
-     */
-    public function fetchArticles(string $country = 'us'): self
-    {
+        $this->queryParameters = [
+            'apiKey' => $this->apiKey,
+            "country" => "us",
+        ];
 
-        try {
-            $response = Http::get($this->url, [
-                'apiKey' => $this->apiKey,
-                'country' => $country,
-            ]);
-            if ($response->failed()) {
-                Log::error('Failed to fetch articles from NewsAPI', [
-                    'status' => $response->status(),
-                    'body' => $response->body(),
-                ]);
-                throw new \Exception('Failed to fetch articles from NewsAPI');
-            }
-            $this->articles = $response->json('articles', []);
-        } catch (\Throwable $e) {
-            Log::error("Error fetching articles from NewsAPI");
-        }
+        $this->responseArticlesKeyAccess = 'articles';
 
         return $this;
     }
@@ -66,13 +43,4 @@ class NewsApiService implements ApiSource
         return $articles;
     }
 
-    public function getArticles(): array
-    {
-        return $this->articles;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
 }

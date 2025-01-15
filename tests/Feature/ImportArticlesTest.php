@@ -88,7 +88,7 @@ class ImportArticlesTest extends TestCase
             $this->app->instance($source, $mockService);
 
             $sourceClass = new $source;
-            $sourceClass->fetchArticles();
+            $sourceClass->setConfig()->fetchArticles()->parse();
 
             $this->assertEmpty($sourceClass->getArticles());
         }

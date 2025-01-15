@@ -33,7 +33,7 @@ class NewsAggregatorService
 
     public function importArticlesFromSource(ApiSource $source): void
     {
-        $fetchedArticles = $source->fetchArticles()->parse();
+        $fetchedArticles = $source->setConfig()->fetchArticles()->parse();
 
         $this->insertArticles($fetchedArticles);
     }

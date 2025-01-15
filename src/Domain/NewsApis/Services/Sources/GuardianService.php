@@ -3,47 +3,23 @@
 namespace Domain\NewsApis\Services\Sources;
 
 use Carbon\Carbon;
-use Domain\NewsApis\Contracts\ApiSource;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
-class GuardianService implements ApiSource
+class GuardianService extends SourceService
 {
-
-    private string $url;
-    private string $apiKey;
-    private string $name;
-    private array $articles;
-
-    public function __construct()
+    /**
+     * @param array<string, mixed> $extraQueryParameters
+     */
+    public function setConfig(): self
     {
         $this->url = config('news-sources.guardian.config.url');
         $this->apiKey = config('news-sources.guardian.config.apikey');
         $this->name = config('news-sources.guardian.config.source');
-        $this->articles = [];
-    }
 
-    /**
-     * @throws \Throwable
-     */
-    public function fetchArticles(): self
-    {
+        $this->queryParameters = [
+            'api-key' => $this->apiKey,
+        ];
 
-        try {
-            $response = Http::get($this->url, [
-                'api-key' => $this->apiKey,
-            ]);
-            if ($response->failed()) {
-                Log::error('Failed to fetch articles from Guardian', [
-                    'status' => $response->status(),
-                    'body' => $response->body(),
-                ]);
-                throw new \Exception('Failed to fetch articles from Guardian');
-            }
-            $this->articles = $response->json('response.results', []);
-        } catch (\Throwable $e) {
-            Log::error("Error fetching articles from Guardian");
-        }
+        $this->responseArticlesKeyAccess = 'response.results';
 
         return $this;
     }
@@ -66,13 +42,4 @@ class GuardianService implements ApiSource
         return $articles;
     }
 
-    public function getArticles(): array
-    {
-        return $this->articles;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
 }
