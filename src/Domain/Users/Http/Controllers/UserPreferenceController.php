@@ -19,7 +19,7 @@ class UserPreferenceController extends Controller
     {
 
     }
-    public function index(Request $request): AnonymousResourceCollection | JsonResponse
+    public function index(Request $request): mixed
     {
         try {
             return CacheService::remember('user-preferences', config('cache-properties.ttl.default'), function () {

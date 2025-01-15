@@ -3,6 +3,8 @@
 namespace Domain\Users\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Domain\Users\database\factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -43,9 +45,9 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    protected static function newFactory()
+    protected static function newFactory(): UserFactory
     {
-        return \Domain\Users\database\factories\UserFactory::new();
+        return UserFactory::new();
     }
 
     public function userPreferences(): \Illuminate\Database\Eloquent\Relations\HasMany

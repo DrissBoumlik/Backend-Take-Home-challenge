@@ -19,7 +19,7 @@ class ArticleController extends Controller
     {
     }
 
-    public function index(ArticleRequest $request): AnonymousResourceCollection | JsonResponse
+    public function index(ArticleRequest $request): mixed
     {
         try {
             return CacheService::remember('articles.index', config('cache-properties.ttl.default'), function () use ($request) {
@@ -37,7 +37,7 @@ class ArticleController extends Controller
     }
 
 
-    public function search(ArticleSearchRequest $request): AnonymousResourceCollection | JsonResponse
+    public function search(ArticleSearchRequest $request): mixed
     {
         try {
             return CacheService::remember('articles.search', config('cache-properties.ttl.default'), function () use ($request) {
@@ -54,7 +54,7 @@ class ArticleController extends Controller
         }
     }
 
-    public function filter(ArticleFilterRequest $request): AnonymousResourceCollection | JsonResponse
+    public function filter(ArticleFilterRequest $request): mixed
     {
         try {
             return CacheService::remember('articles.filter', config('cache-properties.ttl.default'), function () use ($request) {
@@ -71,7 +71,7 @@ class ArticleController extends Controller
         }
     }
 
-    public function getArticlesByPreferences(ArticleRequest $request): AnonymousResourceCollection | JsonResponse
+    public function getArticlesByPreferences(ArticleRequest $request): mixed
     {
         try {
             return CacheService::remember('articles.user-preferences', config('cache-properties.ttl.default'), function () use ($request) {
@@ -80,7 +80,7 @@ class ArticleController extends Controller
 
                 return $this->articleService->getArticlesByUserPreferences($perPage);
             }, $request->has('forget'));
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return response()->json(['message' => 'An unexpected error occurred. Please try again later.' ],
                 Response::HTTP_BAD_REQUEST);
         }

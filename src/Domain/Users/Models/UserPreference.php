@@ -2,6 +2,7 @@
 
 namespace Domain\Users\Models;
 
+use Domain\Users\database\factories\UserPreferenceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,9 +23,9 @@ class UserPreference extends Model
         'authors' => 'array',
     ];
 
-    protected static function newFactory()
+    protected static function newFactory(): UserPreferenceFactory
     {
-        return \Domain\Users\database\factories\UserPreferenceFactory::new();
+        return UserPreferenceFactory::new();
     }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo

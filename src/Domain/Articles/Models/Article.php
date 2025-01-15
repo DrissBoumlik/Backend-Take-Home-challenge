@@ -2,6 +2,7 @@
 
 namespace Domain\Articles\Models;
 
+use Domain\Articles\database\factories\ArticleFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,9 +23,9 @@ class Article extends Model
         'published_at' => 'datetime',
     ];
 
-    protected static function newFactory()
+    protected static function newFactory(): ArticleFactory
     {
-        return \Domain\Articles\database\factories\ArticleFactory::new();
+        return ArticleFactory::new();
     }
 
 }
