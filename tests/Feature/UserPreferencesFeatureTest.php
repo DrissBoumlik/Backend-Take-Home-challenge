@@ -72,7 +72,7 @@ class UserPreferencesFeatureTest extends TestCase
         ]);
     }
 
-    public function test_get_articles_by_user_preferences_handles_generic_exception()
+    public function test_get_articles_by_user_preferences_handles_generic_exception(): void
     {
         $mockSearchService = \Mockery::mock(ArticlesByUserPreferenceService::class);
         $mockSearchService->allows('getArticles')
