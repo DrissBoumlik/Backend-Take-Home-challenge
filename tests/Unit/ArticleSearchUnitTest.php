@@ -3,11 +3,7 @@
 namespace Tests\Unit;
 
 use Domain\Articles\Models\Article;
-use Domain\Articles\Services\ArticleFilterService;
-use Domain\Articles\Services\ArticlesByUserPreferenceService;
 use Domain\Articles\Services\ArticleSearchService;
-use Domain\Articles\Services\ArticleService;
-use Domain\NewsApis\Services\NewsAggregatorService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,17 +11,12 @@ class ArticleSearchUnitTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected ArticleService $articleService;
+    protected ArticleSearchService $articleSearchService;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->articleService = new ArticleService(
-            \Mockery::mock(NewsAggregatorService::class),
-            new ArticleSearchService,
-            \Mockery::mock(ArticleFilterService::class),
-            \Mockery::mock(ArticlesByUserPreferenceService::class),
-        );
+        $this->articleSearchService = new ArticleSearchService;
     }
 
     public function test_search_builds_correct_query(): void
@@ -36,7 +27,7 @@ class ArticleSearchUnitTest extends TestCase
 
         $term = 'Testing';
 
-        $results = $this->articleService->searchArticles($term, 10);
+        $results = $this->articleSearchService->search($term)->get();
 
         $this->assertCount(2, $results);
         $this->assertEquals('First Testing Article', $results[1]->title);
@@ -49,7 +40,7 @@ class ArticleSearchUnitTest extends TestCase
 
         $term = 'Nonexistent';
 
-        $results = $this->articleService->searchArticles($term, 10);
+        $results = $this->articleSearchService->search($term)->get();
 
         $this->assertCount(0, $results);
     }
