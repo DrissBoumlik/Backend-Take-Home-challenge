@@ -52,7 +52,7 @@ class ArticleIndexTest extends TestCase
         ]);
     }
 
-    public function test_inedx_invalidate_per_page_parameter(): void
+    public function test_index_invalidate_per_page_parameter(): void
     {
         Article::factory()->create(['title' => 'Article Title']);
 
