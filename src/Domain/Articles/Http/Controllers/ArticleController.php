@@ -33,7 +33,7 @@ class ArticleController extends Controller
                 return response()->json([
                     'message' => 'Failed to retrieve articles',
                 ], Response::HTTP_BAD_REQUEST);
-            }
+        }
     }
 
 
