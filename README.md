@@ -65,6 +65,10 @@ src
 │   │   │   └── Resources       # User preferences resource transformations
 │   │   ├── Models              # User & User preferences eloquent models
 │   │   └── Services            # Business logic services for user preferences
+
+tests
+├── Feature                     # Feature-level tests simulating real-world user behavior
+└── Unit                        # Unit tests for isolated components and logic
 ```
 
 ## Setup and Run the App
